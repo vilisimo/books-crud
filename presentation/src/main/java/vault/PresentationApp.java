@@ -1,8 +1,8 @@
-package presentation;
+package vault;
 
 import io.dropwizard.Application;
 import io.dropwizard.setup.Environment;
-import presentation.vault.resource.SuggestionsResource;
+import vault.resource.SuggestionsResource;
 
 public class PresentationApp extends Application<MainConfiguration> {
 

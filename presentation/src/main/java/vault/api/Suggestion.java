@@ -1,4 +1,4 @@
-package presentation.vault.api;
+package vault.api;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

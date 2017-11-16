@@ -1,4 +1,4 @@
-package presentation.vault.api
+package vault.api
 
 import spock.lang.Specification
 

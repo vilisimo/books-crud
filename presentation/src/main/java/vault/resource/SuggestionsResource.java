@@ -1,9 +1,9 @@
-package presentation.vault.resource;
+package vault.resource;
 
 import com.codahale.metrics.annotation.Timed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import presentation.vault.api.Suggestion;
+import vault.api.Suggestion;
 
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;

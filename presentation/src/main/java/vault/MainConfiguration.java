@@ -1,4 +1,4 @@
-package presentation;
+package vault;
 
 import io.dropwizard.Configuration;
 

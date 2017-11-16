@@ -8,7 +8,7 @@ plugins {
 group 'presentation.vault'
 version '1.0-SNAPSHOT'
 
-mainClassName = 'presentation.PresentationApp'
+mainClassName = 'vault.PresentationApp'
 
 sourceCompatibility = 1.8
 
@@ -19,7 +19,7 @@ run {
 shadowJar {
     mergeServiceFiles()
     exclude 'META-INF/*.DSA', 'META-INF/*.RSA', 'META-INF/*.SF'
-    archiveName 'vault-presentation.jar'
+    archiveName 'presentation-vault.jar'
 }
 
 repositories {

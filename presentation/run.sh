@@ -1,1 +1,1 @@
-java -jar build/libs/vault-presentation.jar server
+java -jar build/libs/presentation-vault.jar server

@@ -1,7 +1,6 @@
-package presentation.vault.resource
+package vault.resource
 
 import io.dropwizard.testing.junit.ResourceTestRule
-import org.junit.ClassRule
 import org.junit.Rule
 import spock.lang.Specification
 
