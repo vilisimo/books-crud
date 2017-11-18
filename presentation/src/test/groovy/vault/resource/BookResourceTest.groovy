@@ -8,11 +8,11 @@ import javax.ws.rs.client.Entity
 import javax.ws.rs.core.MediaType
 import javax.ws.rs.core.Response
 
-class SuggestionsResourceTest extends Specification {
+class BookResourceTest extends Specification {
 
     @Rule
     ResourceTestRule resources = ResourceTestRule.builder()
-            .addResource(new SuggestionsResource())
+            .addResource(new BookResource())
             .build()
 
     def "Posting a suggestion returns 201"() {

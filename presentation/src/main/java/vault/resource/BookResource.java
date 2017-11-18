@@ -3,36 +3,35 @@ package vault.resource;
 import com.codahale.metrics.annotation.Timed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import vault.api.Suggestion;
+import vault.model.Book;
 
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-@Path("/suggestions")
-public class SuggestionsResource {
+@Path("/recommendations/books")
+public class BookResource {
 
-    private static final Logger LOG = LoggerFactory.getLogger(Suggestion.class);
+    private static final Logger LOG = LoggerFactory.getLogger(Book.class);
 
     @POST
     @Timed
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response postSuggestion(@Valid Suggestion suggestion, @Context UriInfo uriInfo) {
+    public Response postSuggestion(@Valid Book book, @Context UriInfo uriInfo) {
         String id = UUID.randomUUID().toString();
-        suggestion.setId(id);
+        book.setId(id);
 
         UriBuilder pathBuilder = uriInfo.getAbsolutePathBuilder();
         pathBuilder.path(id);
 
-        LOG.info("Received a suggestion: {}", suggestion);
+        LOG.info("Received a suggestion: {}", book);
 
         return Response.created(pathBuilder.build())
-                .entity(suggestion)
+                .entity(book)
                 .build();
     }
 
@@ -40,11 +39,11 @@ public class SuggestionsResource {
     @Timed
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAll() {
-        List<Suggestion> suggestions = new ArrayList<>();
-        suggestions.add(new Suggestion("First suggestion"));
-        suggestions.add(new Suggestion("Second suggestion"));
+        List<Book> books = new ArrayList<>();
+        books.add(new Book("First suggestion", "Because"));
+        books.add(new Book("Second suggestion", "I said so"));
 
-        return Response.ok(suggestions).build();
+        return Response.ok(books).build();
     }
 
     @GET
@@ -52,9 +51,9 @@ public class SuggestionsResource {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getOne(@PathParam("id") String id) {
-        Suggestion suggestion = new Suggestion("Just a placeholder");
+        Book book = new Book("Just a placeholder", "Placeholder");
 
-        return Response.ok(suggestion).build();
+        return Response.ok(book).build();
     }
 
     @PUT

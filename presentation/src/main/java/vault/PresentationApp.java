@@ -2,7 +2,7 @@ package vault;
 
 import io.dropwizard.Application;
 import io.dropwizard.setup.Environment;
-import vault.resource.SuggestionsResource;
+import vault.resource.BookResource;
 
 public class PresentationApp extends Application<MainConfiguration> {
 
@@ -12,7 +12,7 @@ public class PresentationApp extends Application<MainConfiguration> {
 
     @Override
     public void run(MainConfiguration configuration, Environment environment) throws Exception {
-        final SuggestionsResource suggestions = new SuggestionsResource();
+        final BookResource suggestions = new BookResource();
         environment.jersey().register(suggestions);
     }
 }
