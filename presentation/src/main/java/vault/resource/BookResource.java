@@ -10,7 +10,6 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Path("/recommendations/books")
 public class BookResource {
@@ -22,13 +21,10 @@ public class BookResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response postSuggestion(@Valid Book book, @Context UriInfo uriInfo) {
-        String id = UUID.randomUUID().toString();
-        book.setId(id);
-
         UriBuilder pathBuilder = uriInfo.getAbsolutePathBuilder();
-        pathBuilder.path(id);
+        pathBuilder.path(book.id());
 
-        LOG.info("Received a suggestion: {}", book);
+        LOG.trace("Received a suggestion: {}", book);
 
         return Response.created(pathBuilder.build())
                 .entity(book)

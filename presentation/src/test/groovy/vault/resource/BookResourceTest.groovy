@@ -17,9 +17,10 @@ class BookResourceTest extends Specification {
 
     def "Posting a suggestion returns 201"() {
         when: "suggestion is posted"
-            def response = resources.client().target("/suggestions")
+            def book = "{\"description\":\"test\",\"reason\":\"historic\"}"
+            def response = resources.client().target("/recommendations/books")
                     .request(MediaType.APPLICATION_JSON_TYPE)
-                    .post(Entity.json("{\"description\": \"test\"}"))
+                    .post(Entity.json(book))
 
         then: "201 is returned"
             response.getStatusInfo() == Response.Status.CREATED
