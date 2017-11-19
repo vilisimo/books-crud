@@ -10,14 +10,14 @@ public abstract class Recommendation {
     private final String id = UUID.randomUUID().toString();
 
     @NotNull
-    protected String description;
+    private String description;
 
     @NotNull
-    protected String reason;
+    private String reason;
 
-    protected Recommendation() {}
+    Recommendation() {}
 
-    protected Recommendation(String description, String reason) {
+    Recommendation(String description, String reason) {
         this.description = description;
         this.reason = reason;
     }

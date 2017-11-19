@@ -2,7 +2,7 @@ package vault.model;
 
 public class Book extends Recommendation {
 
-    public Book() {}
+    private Book() {}
 
     public Book(String description, String reason) {
         super(description, reason);
@@ -10,9 +10,6 @@ public class Book extends Recommendation {
 
     @Override
     public String toString() {
-        return "Book{" +
-                "description='" + description + '\'' +
-                ", reason='" + reason + '\'' +
-                '}';
+        return "Book[id=" + id() + "]";
     }
 }
