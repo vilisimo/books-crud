@@ -1,18 +1,18 @@
 package vault.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 public abstract class Recommendation {
 
     private final String id = UUID.randomUUID().toString();
 
-    @NotNull
+    @NotEmpty
     private String description;
 
-    @NotNull
+    @NotEmpty
     private String reason;
 
     Recommendation() {}
