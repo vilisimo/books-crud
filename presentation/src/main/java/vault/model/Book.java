@@ -5,6 +5,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.URL;
 
 import javax.annotation.concurrent.Immutable;
+import java.util.UUID;
 
 @Immutable
 public class Book extends Recommendation {
@@ -26,6 +27,7 @@ public class Book extends Recommendation {
     // TODO: add validations in case POJO is created manually
     public Book(String title, String author, String description, String reason, String amazon, String goodreads) {
         super(description, reason);
+        this.id = UUID.randomUUID().toString();
         this.amazon = amazon;
         this.goodreads = goodreads;
         this.title = title;

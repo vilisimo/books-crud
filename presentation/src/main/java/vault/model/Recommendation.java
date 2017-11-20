@@ -3,11 +3,9 @@ package vault.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import java.util.UUID;
-
 public abstract class Recommendation {
 
-    private final String id = UUID.randomUUID().toString();
+    String id;
 
     @NotEmpty
     private String description;
@@ -25,6 +23,10 @@ public abstract class Recommendation {
     @JsonProperty
     public String id() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     @JsonProperty
