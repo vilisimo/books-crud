@@ -4,6 +4,7 @@ import com.codahale.metrics.annotation.Timed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import vault.model.Book;
+import vault.validation.annotations.UUID;
 
 import javax.validation.Valid;
 import javax.ws.rs.*;
@@ -22,6 +23,7 @@ public class BookResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response postSuggestion(@Valid Book book, @Context UriInfo uriInfo) {
+        book.setId(java.util.UUID.randomUUID().toString());
         tempDatasource.put(book.id(), book);
 
         UriBuilder pathBuilder = uriInfo.getAbsolutePathBuilder();
@@ -47,7 +49,7 @@ public class BookResource {
     @Timed
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Optional<Book> getOne(@PathParam("id") String id) {
+    public Optional<Book> getOne(@PathParam("id") @UUID String id) {
         return Optional.ofNullable(tempDatasource.get(id));
     }
 
@@ -55,21 +57,27 @@ public class BookResource {
     @Timed
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response update(@PathParam("id") String id, @Valid Book book) {
-        // TODO: fix id - every time a request is received, new ID is assigned
-        // TODO: add validation of PathParam via annotation
-        try {
-            tempDatasource.put(UUID.fromString(id).toString(), book);
-            return Response.noContent().build();
-        } catch (IllegalArgumentException e) {
-            return Response.status(Response.Status.NOT_FOUND).build();
+    public Response update(@PathParam("id") @UUID String id, @Valid Book book, @Context UriInfo uriInfo) {
+        book.setId(id);
+
+        boolean created = !tempDatasource.containsKey(book.id());
+        tempDatasource.put(id, book);
+
+        if (created) {
+            UriBuilder pathBuilder = uriInfo.getAbsolutePathBuilder();
+            pathBuilder.path(book.id());
+
+            return Response.created(pathBuilder.build())
+                    .build();
         }
+
+        return Response.noContent().build();
     }
 
     @DELETE
     @Timed
     @Path("/{id}")
-    public Response delete(@PathParam("id") String id) {
+    public Response delete(@PathParam("id") @UUID String id) {
         Book book = tempDatasource.remove(id);
 
         if (book != null) {
