@@ -1,8 +1,6 @@
 package vault.resource;
 
 import com.codahale.metrics.annotation.Timed;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import vault.model.Book;
 import vault.validation.annotations.UUID;
 
@@ -13,8 +11,6 @@ import java.util.*;
 
 @Path("/recommendations/books")
 public class BookResource {
-
-    private static final Logger LOG = LoggerFactory.getLogger(Book.class);
 
     private static final Map<String, Book> tempDatasource = new HashMap<>();
 
@@ -28,8 +24,6 @@ public class BookResource {
 
         UriBuilder pathBuilder = uriInfo.getAbsolutePathBuilder();
         pathBuilder.path(book.id());
-
-        LOG.trace("Received a suggestion: {}", book);
 
         return Response.created(pathBuilder.build())
                 .entity(book)
