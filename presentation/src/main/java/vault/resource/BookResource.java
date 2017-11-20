@@ -54,10 +54,16 @@ public class BookResource {
     @PUT
     @Timed
     @Path("/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
     public Response update(@PathParam("id") String id, @Valid Book book) {
-        tempDatasource.put(book.id(), book);
-
-        return Response.noContent().build();
+        // TODO: fix id - every time a request is received, new ID is assigned
+        // TODO: add validation of PathParam via annotation
+        try {
+            tempDatasource.put(UUID.fromString(id).toString(), book);
+            return Response.noContent().build();
+        } catch (IllegalArgumentException e) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
     }
 
     @DELETE
