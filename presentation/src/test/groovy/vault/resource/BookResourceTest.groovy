@@ -16,7 +16,7 @@ class BookResourceTest extends Specification {
             .build()
 
     def "Posting a book returns 201"() {
-        when: "book is posted"
+        given: "a valid book JSON"
             def book = "{" +
                     "\"author\": \"J.R.R. Tolkien\"," +
                     "\"title\": \"The Hobbit\"," +
@@ -24,6 +24,8 @@ class BookResourceTest extends Specification {
                     "\"reason\": \"It is a light-hearted, easy to read and yet immersive book\"," +
                     "\"amazon\": \"https://www.amazon.com/Hobbit-J-R-Tolkien/dp/054792822X\"," +
                     "\"goodreads\": \"https://www.goodreads.com/book/show/5907.The_Hobbit\"}"
+
+        when: "book is posted"
             def response = resources.client().target("/recommendations/books")
                     .request(MediaType.APPLICATION_JSON_TYPE)
                     .post(Entity.json(book))

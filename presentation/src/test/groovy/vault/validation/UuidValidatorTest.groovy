@@ -16,8 +16,10 @@ class UuidValidatorTest extends Specification {
     def "invalid uuid does not pass validation"() {
         given: "invalid uuid"
             def uuid = "invalid"
+
         when: "uuid is validated"
             def valid = validator.isValid(uuid, context)
+
         then: "uuid is judged to be invalid"
             !valid
     }
@@ -25,8 +27,10 @@ class UuidValidatorTest extends Specification {
     def "valid uuid passes validation"() {
         given: "valid uuid"
             def uuid = UUID.randomUUID().toString()
+
         when: "uuid is validated"
             def valid = validator.isValid(uuid, context)
+
         then: "uuid is judged to be valid"
             valid
     }
