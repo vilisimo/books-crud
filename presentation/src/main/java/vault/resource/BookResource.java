@@ -22,7 +22,7 @@ public class BookResource {
     @Timed
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response postSuggestion(@Valid Book book, @Context UriInfo uriInfo) {
+    public Response postBook(@Valid Book book, @Context UriInfo uriInfo) {
         book.setId(java.util.UUID.randomUUID().toString());
         tempDatasource.put(book.id(), book);
 
@@ -39,7 +39,7 @@ public class BookResource {
     @GET
     @Timed
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getAll() {
+    public Response getAllBooks() {
         List<Book> books = new ArrayList<>(tempDatasource.values());
 
         return Response.ok(books).build();
@@ -49,7 +49,7 @@ public class BookResource {
     @Timed
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Optional<Book> getOne(@PathParam("id") @UUID String id) {
+    public Optional<Book> getBook(@PathParam("id") @UUID String id) {
         return Optional.ofNullable(tempDatasource.get(id));
     }
 
@@ -57,7 +57,7 @@ public class BookResource {
     @Timed
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response update(@PathParam("id") @UUID String id, @Valid Book book, @Context UriInfo uriInfo) {
+    public Response updateBook(@PathParam("id") @UUID String id, @Valid Book book, @Context UriInfo uriInfo) {
         book.setId(id);
 
         boolean created = !tempDatasource.containsKey(book.id());
@@ -77,7 +77,7 @@ public class BookResource {
     @DELETE
     @Timed
     @Path("/{id}")
-    public Response delete(@PathParam("id") @UUID String id) {
+    public Response deleteBook(@PathParam("id") @UUID String id) {
         Book book = tempDatasource.remove(id);
 
         if (book != null) {
