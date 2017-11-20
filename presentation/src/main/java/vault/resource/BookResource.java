@@ -6,8 +6,13 @@ import vault.validation.annotations.UUID;
 
 import javax.validation.Valid;
 import javax.ws.rs.*;
-import javax.ws.rs.core.*;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 import java.util.*;
+
+import static vault.resource.UriPathBuilder.buildUri;
 
 @Path("/recommendations/books")
 public class BookResource {
@@ -22,10 +27,7 @@ public class BookResource {
         book.setId(java.util.UUID.randomUUID().toString());
         tempDatasource.put(book.id(), book);
 
-        UriBuilder pathBuilder = uriInfo.getAbsolutePathBuilder();
-        pathBuilder.path(book.id());
-
-        return Response.created(pathBuilder.build())
+        return Response.created(buildUri(uriInfo, book.id()))
                 .entity(book)
                 .build();
     }
@@ -58,11 +60,7 @@ public class BookResource {
         tempDatasource.put(id, book);
 
         if (created) {
-            UriBuilder pathBuilder = uriInfo.getAbsolutePathBuilder();
-            pathBuilder.path(book.id());
-
-            return Response.created(pathBuilder.build())
-                    .build();
+            return Response.created(buildUri(uriInfo, book.id())).build();
         }
 
         return Response.noContent().build();
