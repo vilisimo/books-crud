@@ -1,6 +1,7 @@
 package vault.resource;
 
 import com.codahale.metrics.annotation.Timed;
+import vault.exception.BookNotFoundException;
 import vault.model.Book;
 import vault.validation.annotations.UUID;
 
@@ -43,7 +44,7 @@ public class BookResource {
 
     @GET
     @Timed
-    @Path("/{id}")
+    @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Optional<Book> getBook(@PathParam("id") @UUID String id) {
         return Optional.ofNullable(tempDatasource.get(id));
@@ -51,7 +52,7 @@ public class BookResource {
 
     @PUT
     @Timed
-    @Path("/{id}")
+    @Path("{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateBook(@PathParam("id") @UUID String id, @Valid Book book, @Context UriInfo uriInfo) {
         book.setId(id);
@@ -68,7 +69,7 @@ public class BookResource {
 
     @DELETE
     @Timed
-    @Path("/{id}")
+    @Path("{id}")
     public Response deleteBook(@PathParam("id") @UUID String id) {
         Book book = tempDatasource.remove(id);
 
