@@ -15,7 +15,7 @@ class BookResourceTest extends Specification {
             .addResource(new BookResource())
             .build()
 
-    def "Posting a book returns 201"() {
+    def "Posting a valid book JSON creates a book"() {
         given: "a valid book JSON"
             def book = "{" +
                     "\"author\": \"J.R.R. Tolkien\"," +
@@ -30,8 +30,28 @@ class BookResourceTest extends Specification {
                     .request(MediaType.APPLICATION_JSON_TYPE)
                     .post(Entity.json(book))
 
-        then: "201 is returned"
+        then: "status code is 201"
             response.getStatusInfo() == Response.Status.CREATED
+
+        then: "a created book is returned"
+            response.hasEntity()
+
+        then: "a path to a new book is returned"
+            def uuid = response.location.toString().split("/").last()
+            uuid.length() == 36
     }
 
+    def "requesting all books returns the books"() {
+        when: "a list of all books is requested"
+            def response = resources.client().target("/recommendations/books")
+                    .request(MediaType.APPLICATION_JSON)
+                    .get()
+
+        then: "status code 200 is returned"
+            response.getStatusInfo() == Response.Status.OK
+            response.hasEntity()
+
+        then: "queried books are returned"
+            response.hasEntity()
+    }
 }
