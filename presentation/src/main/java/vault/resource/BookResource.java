@@ -21,6 +21,7 @@ import static vault.resource.UriPathBuilder.buildUri;
 @Produces(MediaType.APPLICATION_JSON)
 public class BookResource {
 
+    // TODO: remove this when Book lifecycle is fully introduced: use Guice
     private static final Map<String, Book> tempDatasource = new HashMap<>();
 
     @POST
