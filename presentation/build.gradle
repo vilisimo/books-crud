@@ -1,5 +1,6 @@
 plugins {
     id "com.github.johnrengelman.shadow" version "2.0.1"
+    id 'com.adarshr.test-logger' version '1.1.2'
     id "application"
     id "groovy"
     id "java"
@@ -34,3 +35,9 @@ dependencies {
     testCompile group: 'io.dropwizard', name: 'dropwizard-testing', version: '1.2.0'
 }
 
+testlogger {
+    theme 'standard' // possible values: mocha, standard or plain
+    showExceptions true
+    slowThreshold 1000
+    showSummary true
+}

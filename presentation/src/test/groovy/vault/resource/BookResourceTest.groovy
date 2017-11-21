@@ -15,7 +15,7 @@ class BookResourceTest extends Specification {
             .addResource(new BookResource())
             .build()
 
-    def "Posting a valid book JSON creates a book"() {
+    def "posting a valid book JSON creates a book"() {
         given: "a valid book JSON"
             def book = "{" +
                     "\"author\": \"J.R.R. Tolkien\"," +
