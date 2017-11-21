@@ -17,14 +17,14 @@ import static java.util.Optional.ofNullable;
 import static vault.resource.UriPathBuilder.buildUri;
 
 @Path("/recommendations/books")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
 public class BookResource {
 
     private static final Map<String, Book> tempDatasource = new HashMap<>();
 
     @POST
     @Timed
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
     public Response postBook(@Valid Book book, @Context UriInfo uriInfo) {
         book.setId(java.util.UUID.randomUUID().toString());
         tempDatasource.put(book.id(), book);
@@ -36,7 +36,6 @@ public class BookResource {
 
     @GET
     @Timed
-    @Produces(MediaType.APPLICATION_JSON)
     public Response getAllBooks() {
         List<Book> books = new ArrayList<>(tempDatasource.values());
 
@@ -46,7 +45,6 @@ public class BookResource {
     @GET
     @Timed
     @Path("{id}")
-    @Produces(MediaType.APPLICATION_JSON)
     public Book getBook(@PathParam("id") @UUID String id) {
         return ofNullable(tempDatasource.get(id))
                 .orElseThrow(() -> new BookNotFoundException(Response.Status.NOT_FOUND, id));
@@ -55,7 +53,6 @@ public class BookResource {
     @PUT
     @Timed
     @Path("{id}")
-    @Consumes(MediaType.APPLICATION_JSON)
     public Response updateBook(@PathParam("id") @UUID String id, @Valid Book book, @Context UriInfo uriInfo) {
         book.setId(id);
 
