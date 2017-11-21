@@ -13,6 +13,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.util.*;
 
+import static java.util.Optional.ofNullable;
 import static vault.resource.UriPathBuilder.buildUri;
 
 @Path("/recommendations/books")
@@ -46,8 +47,9 @@ public class BookResource {
     @Timed
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Optional<Book> getBook(@PathParam("id") @UUID String id) {
-        return Optional.ofNullable(tempDatasource.get(id));
+    public Book getBook(@PathParam("id") @UUID String id) {
+        return ofNullable(tempDatasource.get(id))
+                .orElseThrow(() -> new BookNotFoundException(Response.Status.NOT_FOUND, id));
     }
 
     @PUT
@@ -73,10 +75,8 @@ public class BookResource {
     public Response deleteBook(@PathParam("id") @UUID String id) {
         Book book = tempDatasource.remove(id);
 
-        if (book != null) {
-            return Response.noContent().build();
-        } else {
-            return Response.status(Response.Status.NOT_FOUND).build();
-        }
+        return ofNullable(book)
+                .map(it -> Response.noContent().build())
+                .orElseThrow(() -> new BookNotFoundException(Response.Status.NOT_FOUND, id));
     }
 }
