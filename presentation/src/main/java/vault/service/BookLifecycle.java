@@ -4,7 +4,8 @@ import vault.model.Book;
 
 import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
+
+import static java.util.Objects.requireNonNull;
 
 public class BookLifecycle implements RecommendationLifecycle<Book> {
 
@@ -12,7 +13,13 @@ public class BookLifecycle implements RecommendationLifecycle<Book> {
     // TODO: that dependency should be injected with Guice
     // TODO: most likely UUID will be returned by persistence layer
 
-    private static final Map<String, Book> datasource = new ConcurrentHashMap<>();
+    private Map<String, Book> datasource;
+
+    public BookLifecycle(Map<String, Book> datasource) {
+        requireNonNull(datasource);
+
+        this.datasource = datasource;
+    }
 
     @Override
     public String save(Book book) {
