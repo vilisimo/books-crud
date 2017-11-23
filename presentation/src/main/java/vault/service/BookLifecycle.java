@@ -30,4 +30,9 @@ public class BookLifecycle implements RecommendationLifecycle<Book> {
 
         return uuid;
     }
+
+    @Override
+    public Book getOne(String id) {
+        return datasource.get(id);
+    }
 }
