@@ -2,10 +2,14 @@ package vault.service;
 
 import vault.model.Book;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static java.util.Objects.requireNonNull;
+import static java.util.stream.Collectors.toList;
 
 public class BookLifecycle implements RecommendationLifecycle<Book> {
 
@@ -29,6 +33,11 @@ public class BookLifecycle implements RecommendationLifecycle<Book> {
         datasource.put(uuid, book);
 
         return uuid;
+    }
+
+    @Override
+    public List<Book> getAll() {
+        return new ArrayList<>(datasource.values());
     }
 
     @Override
