@@ -6,10 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import static java.util.Objects.requireNonNull;
-import static java.util.stream.Collectors.toList;
 
 public class BookLifecycle implements RecommendationLifecycle<Book> {
 
@@ -43,5 +41,11 @@ public class BookLifecycle implements RecommendationLifecycle<Book> {
     @Override
     public Book getOne(String id) {
         return datasource.get(id);
+    }
+
+    @Override
+    public void update(String id, Book book) {
+        book.setId(id);
+        datasource.put(id, book);
     }
 }

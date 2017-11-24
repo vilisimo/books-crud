@@ -6,4 +6,5 @@ public interface RecommendationLifecycle<T> {
     String save(T entity);
     List<T> getAll();
     T getOne(String id);
+    void update(String id, T entity);
 }

@@ -98,4 +98,31 @@ class BookLifecycleTest extends Specification {
         then: "a book is returned"
             book == retrievedBook
     }
+
+    def "saved book can be updated"() {
+        given: "a book that exists in a datasource"
+            def book = new Book(
+                    "The Colour of Magic",
+                    "Terry Pratchett",
+                    "A book about a wizard",
+                    "Good laugh",
+                    "https://www.amazon.co.uk/Colour-Magic-Discworld-Novel-Novels/dp/0552166596",
+                    "https://www.goodreads.com/book/show/34497.The_Color_of_Magic")
+            datasource.put("book", book)
+        
+        when: "user updates a book"
+            def tlf = new Book(
+                    "The Light Fantastic",
+                    "Terry Pratchett",
+                    "A book about a wizard",
+                    "Good laugh",
+                    "https://www.amazon.co.uk/Light-Fantastic-Discworld-Novel-Novels/dp/055216660X/",
+                    "https://www.goodreads.com/book/show/34506.The_Light_Fantastic")
+            datasource.put("book", tlf)
+
+        then: "book is updated"
+            def updated = datasource.get("book")
+            datasource.size() == 1
+            updated.title() == tlf.title()
+    }
 }
