@@ -1,13 +1,16 @@
 package vault.service;
 
+import vault.exception.BookNotFoundException;
 import vault.model.Book;
 
+import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 import static java.util.Objects.requireNonNull;
+import static java.util.Optional.ofNullable;
 
 public class BookLifecycle implements RecommendationLifecycle<Book> {
 
@@ -19,7 +22,6 @@ public class BookLifecycle implements RecommendationLifecycle<Book> {
 
     public BookLifecycle(Map<String, Book> datasource) {
         requireNonNull(datasource);
-
         this.datasource = datasource;
     }
 
@@ -40,7 +42,8 @@ public class BookLifecycle implements RecommendationLifecycle<Book> {
 
     @Override
     public Book getOne(String id) {
-        return datasource.get(id);
+        return ofNullable(datasource.get(id))
+                .orElseThrow(() -> new BookNotFoundException(Response.Status.NOT_FOUND, id));
     }
 
     @Override
@@ -51,6 +54,8 @@ public class BookLifecycle implements RecommendationLifecycle<Book> {
 
     @Override
     public void remove(String id) {
-        datasource.remove(id);
+        if (datasource.remove(id) == null) {
+            throw new BookNotFoundException(Response.Status.NOT_FOUND, id);
+        }
     }
 }

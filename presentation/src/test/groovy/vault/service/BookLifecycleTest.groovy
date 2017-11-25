@@ -1,20 +1,13 @@
 package vault.service
 
-import spock.lang.Shared
 import spock.lang.Specification
+import vault.exception.BookNotFoundException
 import vault.model.Book
 
 class BookLifecycleTest extends Specification {
 
-    @Shared
     def datasource = new HashMap<String, Book>()
-
-    @Shared
     def lifecycle = new BookLifecycle(datasource)
-
-    def cleanup() {
-        datasource.clear()
-    }
 
     def "book is saved"() {
         given: "a book"
@@ -81,6 +74,17 @@ class BookLifecycleTest extends Specification {
             books.size() > 1
     }
 
+    def "when no books are saved, empty collection is returned"() {
+        given: "an empty datasource"
+            assert datasource.isEmpty()
+
+        when: "all books are queried"
+            def books = lifecycle.getAll()
+
+        then: "an empty collection is returned"
+            books.isEmpty()
+    }
+
     def "saved book can be retrieved from the lifecycle"() {
         given: "a book is saved"
             def book = new Book(
@@ -97,6 +101,17 @@ class BookLifecycleTest extends Specification {
 
         then: "the book is returned"
             book == retrievedBook
+    }
+
+    def "non-existent book cannot be retrieved"() {
+        given: "an empty datasource"
+            assert datasource.isEmpty()
+
+        when: "a book is requested"
+            lifecycle.getOne("non-existent id")
+
+        then: "an exception is thrown to indicate its absence"
+            thrown(BookNotFoundException)
     }
 
     def "saved book can be updated"() {
@@ -126,6 +141,24 @@ class BookLifecycleTest extends Specification {
             updated.title() == tlf.title()
     }
 
+    def "updating non-existent book creates it"() {
+        given: "an empty datasource"
+            assert datasource.isEmpty()
+
+        when: "non-existent book is updated"
+            def book = new Book(
+                    "The Colour of Magic",
+                    "Terry Pratchett",
+                    "A book about a wizard",
+                    "Good laugh",
+                    "https://www.amazon.co.uk/Colour-Magic-Discworld-Novel-Novels/dp/0552166596",
+                    "https://www.goodreads.com/book/show/34497.The_Color_of_Magic")
+            lifecycle.update("book", book)
+
+        then: "a book is saved"
+            datasource.size() == 1
+    }
+
     def "delete removes book from the datasource"() {
         given: "a book exists in data source"
             def book = new Book(
@@ -142,5 +175,16 @@ class BookLifecycleTest extends Specification {
 
         then: "datasource does not contain the book anymore"
             datasource.isEmpty()
+    }
+
+    def "non-existent book cannot be deleted"() {
+        given: "an empty datasource"
+            assert datasource.isEmpty()
+
+        when: "a non-existent book is deleted"
+            lifecycle.remove("non-existent id")
+
+        then:
+            thrown(BookNotFoundException)
     }
 }
