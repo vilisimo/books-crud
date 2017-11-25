@@ -48,4 +48,9 @@ public class BookLifecycle implements RecommendationLifecycle<Book> {
         book.setId(id);
         datasource.put(id, book);
     }
+
+    @Override
+    public void remove(String id) {
+        datasource.remove(id);
+    }
 }

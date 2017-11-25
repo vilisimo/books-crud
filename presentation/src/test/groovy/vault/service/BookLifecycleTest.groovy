@@ -95,7 +95,7 @@ class BookLifecycleTest extends Specification {
         when: "the lifecycle is queried by the book's id"
             def retrievedBook = lifecycle.getOne("book")
 
-        then: "a book is returned"
+        then: "the book is returned"
             book == retrievedBook
     }
 
@@ -109,8 +109,8 @@ class BookLifecycleTest extends Specification {
                     "https://www.amazon.co.uk/Colour-Magic-Discworld-Novel-Novels/dp/0552166596",
                     "https://www.goodreads.com/book/show/34497.The_Color_of_Magic")
             datasource.put("book", book)
-        
-        when: "user updates a book"
+
+        when: "user updates the book"
             def tlf = new Book(
                     "The Light Fantastic",
                     "Terry Pratchett",
@@ -124,5 +124,23 @@ class BookLifecycleTest extends Specification {
             def updated = datasource.get("book")
             datasource.size() == 1
             updated.title() == tlf.title()
+    }
+
+    def "delete removes book from the datasource"() {
+        given: "a book exists in data source"
+            def book = new Book(
+                    "The Colour of Magic",
+                    "Terry Pratchett",
+                    "A book about a wizard",
+                    "Good laugh",
+                    "https://www.amazon.co.uk/Colour-Magic-Discworld-Novel-Novels/dp/0552166596",
+                    "https://www.goodreads.com/book/show/34497.The_Color_of_Magic")
+            datasource.put("book", book)
+
+        when: "the book is deleted"
+            datasource.remove("book")
+
+        then: "datasource does not contain the book anymore"
+            datasource.isEmpty()
     }
 }
