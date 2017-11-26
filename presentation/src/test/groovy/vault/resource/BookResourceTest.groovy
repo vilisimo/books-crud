@@ -15,7 +15,7 @@ class BookResourceTest extends Specification {
             .addResource(new BookResource())
             .build()
 
-    def "posting a valid book JSON creates a book"() {
+    def "posting JSON of a valid book creates a book"() {
         given: "a valid book JSON"
             def book = "{" +
                     "\"author\": \"J.R.R. Tolkien\"," +
@@ -41,7 +41,7 @@ class BookResourceTest extends Specification {
             uuid.length() == 36
     }
 
-    def "requesting all books returns the books"() {
+    def "requesting all books returns a list of books"() {
         when: "a list of all books is requested"
             def response = resources.client().target("/recommendations/books")
                     .request(MediaType.APPLICATION_JSON)
