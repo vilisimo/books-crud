@@ -3,6 +3,8 @@ package vault.resource
 import io.dropwizard.testing.junit.ResourceTestRule
 import org.junit.Rule
 import spock.lang.Specification
+import vault.model.Book
+import vault.service.BookLifecycle
 
 import javax.ws.rs.client.Entity
 import javax.ws.rs.core.MediaType
@@ -10,14 +12,16 @@ import javax.ws.rs.core.Response
 
 class BookResourceTest extends Specification {
 
+    BookLifecycle lifecycle = Stub()
+
     @Rule
     ResourceTestRule resources = ResourceTestRule.builder()
-            .addResource(new BookResource())
+            .addResource(new BookResource(lifecycle))
             .build()
 
     def "posting JSON of a valid book creates a book"() {
         given: "a valid book JSON"
-            def book = "{" +
+            def bookJson = "{" +
                     "\"author\": \"J.R.R. Tolkien\"," +
                     "\"title\": \"The Hobbit\"," +
                     "\"description\": \"A book about a hobbit's adventures\"," +
@@ -28,15 +32,18 @@ class BookResourceTest extends Specification {
         when: "book is posted"
             def response = resources.client().target("/recommendations/books")
                     .request(MediaType.APPLICATION_JSON_TYPE)
-                    .post(Entity.json(book))
+                    .post(Entity.json(bookJson))
 
-        then: "status code is 201"
+        then: "lifecycle returns uuid"
+            lifecycle.save(_ as Book) >> UUID.randomUUID().toString()
+
+        and: "resource returns status CREATED"
             response.getStatusInfo() == Response.Status.CREATED
 
-        then: "a created book is returned"
+        and: "resource returns the book that was created"
             response.hasEntity()
 
-        then: "a path to a new book is returned"
+        and: "resource returns a path to a newly created book"
             def uuid = response.location.toString().split("/").last()
             uuid.length() == 36
     }
@@ -47,11 +54,19 @@ class BookResourceTest extends Specification {
                     .request(MediaType.APPLICATION_JSON)
                     .get()
 
-        then: "status code 200 is returned"
-            response.getStatusInfo() == Response.Status.OK
-            response.hasEntity()
+        then: "lifecycle returns a list of books"
+            lifecycle.getAll() >> [new Book(
+                    "J.R.R. Tolkien",
+                    "The Hobbit",
+                    "A book about a hobbit's adventures",
+                    "It is a light-hearted, easy to read and yet immersive book",
+                    "https://www.amazon.com/Hobbit-J-R-Tolkien/dp/054792822X",
+                    "https://www.goodreads.com/book/show/5907.The_Hobbit")]
 
-        then: "queried books are returned"
+        and: "resource returns status OK"
+            response.getStatusInfo() == Response.Status.OK
+
+        and: "resource returns a list of all books"
             response.hasEntity()
     }
 }

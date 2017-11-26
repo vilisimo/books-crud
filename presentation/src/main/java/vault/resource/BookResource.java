@@ -3,6 +3,7 @@ package vault.resource;
 import com.codahale.metrics.annotation.Timed;
 import vault.exception.BookNotFoundException;
 import vault.model.Book;
+import vault.service.RecommendationLifecycle;
 import vault.validation.annotations.UUID;
 
 import javax.validation.Valid;
@@ -24,13 +25,18 @@ public class BookResource {
     // TODO: remove this when Book lifecycle is fully introduced: use Guice
     private static final Map<String, Book> tempDatasource = new HashMap<>();
 
+    private final RecommendationLifecycle<Book> lifecycle;
+
+    public BookResource(RecommendationLifecycle<Book> lifecycle) {
+        this.lifecycle = lifecycle;
+    }
+
     @POST
     @Timed
     public Response postBook(@Valid Book book, @Context UriInfo uriInfo) {
-        book.setId(java.util.UUID.randomUUID().toString());
-        tempDatasource.put(book.id(), book);
+        String uuid = lifecycle.save(book);
 
-        return Response.created(buildUri(uriInfo, book.id()))
+        return Response.created(buildUri(uriInfo, uuid))
                 .entity(book)
                 .build();
     }
@@ -38,7 +44,7 @@ public class BookResource {
     @GET
     @Timed
     public Response getAllBooks() {
-        List<Book> books = new ArrayList<>(tempDatasource.values());
+        List<Book> books = lifecycle.getAll();
 
         return Response.ok(books).build();
     }
