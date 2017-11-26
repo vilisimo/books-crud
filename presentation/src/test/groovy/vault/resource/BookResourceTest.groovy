@@ -20,19 +20,19 @@ class BookResourceTest extends Specification {
             .build()
 
     def "posting JSON of a valid book creates a book"() {
-        given: "a valid book JSON"
-            def bookJson = "{" +
-                    "\"author\": \"J.R.R. Tolkien\"," +
-                    "\"title\": \"The Hobbit\"," +
-                    "\"description\": \"A book about a hobbit's adventures\"," +
-                    "\"reason\": \"It is a light-hearted, easy to read and yet immersive book\"," +
-                    "\"amazon\": \"https://www.amazon.com/Hobbit-J-R-Tolkien/dp/054792822X\"," +
-                    "\"goodreads\": \"https://www.goodreads.com/book/show/5907.The_Hobbit\"}"
+        given: "a book"
+            def book = new Book(
+                    "J.R.R. Tolkien",
+                    "The Hobbit",
+                    "A book about a hobbit's adventures",
+                    "It is a light-hearted, easy to read and yet immersive book",
+                    "https://www.amazon.com/Hobbit-J-R-Tolkien/dp/054792822X",
+                    "https://www.goodreads.com/book/show/5907.The_Hobbit")
 
         when: "book is posted"
             def response = resources.client().target("/recommendations/books")
                     .request(MediaType.APPLICATION_JSON_TYPE)
-                    .post(Entity.json(bookJson))
+                    .post(Entity.json(book))
 
         then: "lifecycle returns uuid"
             lifecycle.save(_ as Book) >> UUID.randomUUID().toString()
@@ -68,5 +68,77 @@ class BookResourceTest extends Specification {
 
         and: "resource returns a list of all books"
             response.hasEntity()
+    }
+
+    def "requesting a book by id returns a book"() {
+        when: "a book is requested by its id"
+            def response = resources.client().target("/recommendations/books/" + UUID.randomUUID().toString())
+                    .request(MediaType.APPLICATION_JSON)
+                    .get()
+
+        then: "lifecycle returns a corresponding book"
+            lifecycle.getOne(_ as String) >> new Book(
+                    "J.R.R. Tolkien",
+                    "The Hobbit",
+                    "A book about a hobbit's adventures",
+                    "It is a light-hearted, easy to read and yet immersive book",
+                    "https://www.amazon.com/Hobbit-J-R-Tolkien/dp/054792822X",
+                    "https://www.goodreads.com/book/show/5907.The_Hobbit")
+
+        and: "resource returns status OK"
+            response.getStatusInfo() == Response.Status.OK
+
+        and: "resource returns requested book"
+            response.hasEntity()
+    }
+
+    def "updating a non-existent book creates it"() {
+        when: "a non-existent book is updated"
+            def book = new Book(
+                    "J.R.R. Tolkien",
+                    "The Hobbit",
+                    "A book about a hobbit's adventures",
+                    "It is a light-hearted, easy to read and yet immersive book",
+                    "https://www.amazon.com/Hobbit-J-R-Tolkien/dp/054792822X",
+                    "https://www.goodreads.com/book/show/5907.The_Hobbit")
+            def response = resources.client().target("/recommendations/books/" + UUID.randomUUID().toString())
+                    .request(MediaType.APPLICATION_JSON)
+                    .put(Entity.json(book))
+
+        then: "lifecycle indicates that the entity was created"
+            lifecycle.update(_ as String, _ as Book) >> false
+
+        and: "resource returns status CREATED"
+            response.getStatusInfo() == Response.Status.CREATED
+    }
+
+    def "updating an existing book updates it"() {
+        when: "an existing book is updated"
+            def book = new Book(
+                    "J.R.R. Tolkien",
+                    "The Hobbit",
+                    "A book about a hobbit's adventures",
+                    "It is a light-hearted, easy to read and yet immersive book",
+                    "https://www.amazon.com/Hobbit-J-R-Tolkien/dp/054792822X",
+                    "https://www.goodreads.com/book/show/5907.The_Hobbit")
+            def response = resources.client().target("/recommendations/books/" + UUID.randomUUID().toString())
+                        .request(MediaType.APPLICATION_JSON)
+                        .put(Entity.json(book))
+
+        then: "lifecycle indicates that the entity was updated"
+            lifecycle.update(_ as String, _ as Book) >> true
+
+        and: "resource returns status NO CONTENT"
+            response.getStatusInfo() == Response.Status.NO_CONTENT
+    }
+
+    def "deleting a book removes it"() {
+        when: "a book is deleted"
+            def response = resources.client().target("/recommendations/books/" + UUID.randomUUID().toString())
+                        .request(MediaType.APPLICATION_JSON)
+                        .delete()
+
+        then: "resource returns status NO CONTENT"
+            response.getStatusInfo() == Response.Status.NO_CONTENT
     }
 }
