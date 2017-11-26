@@ -133,12 +133,15 @@ class BookLifecycleTest extends Specification {
                     "Good laugh",
                     "https://www.amazon.co.uk/Light-Fantastic-Discworld-Novel-Novels/dp/055216660X/",
                     "https://www.goodreads.com/book/show/34506.The_Light_Fantastic")
-            datasource.put("book", tlf)
+            def updated = lifecycle.update("book", tlf)
 
-        then: "book is updated"
-            def updated = datasource.get("book")
+        then: "lifecycle reports that the book was updated"
+            updated
+
+        and: "book's details are updated"
+            def updatedBook = datasource.get("book")
             datasource.size() == 1
-            updated.title() == tlf.title()
+            updatedBook.title() == tlf.title()
     }
 
     def "updating non-existent book creates it"() {
@@ -153,10 +156,13 @@ class BookLifecycleTest extends Specification {
                     "Good laugh",
                     "https://www.amazon.co.uk/Colour-Magic-Discworld-Novel-Novels/dp/0552166596",
                     "https://www.goodreads.com/book/show/34497.The_Color_of_Magic")
-            lifecycle.update("book", book)
+            def updated = lifecycle.update("book", book)
 
         then: "a book is saved"
             datasource.size() == 1
+
+        and: "lifecycle reports that the book was not updated"
+            !updated
     }
 
     def "delete removes book from the datasource"() {

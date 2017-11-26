@@ -47,9 +47,10 @@ public class BookLifecycle implements RecommendationLifecycle<Book> {
     }
 
     @Override
-    public void update(String id, Book book) {
+    public boolean update(String id, Book book) {
         book.setId(id);
-        datasource.put(id, book);
+
+        return datasource.put(id, book) != null;
     }
 
     @Override

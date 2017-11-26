@@ -10,7 +10,7 @@ public interface RecommendationLifecycle<T> {
 
     T getOne(String id);
 
-    void update(String id, T entity);
+    boolean update(String id, T entity);
 
     void remove(String id);
 }
