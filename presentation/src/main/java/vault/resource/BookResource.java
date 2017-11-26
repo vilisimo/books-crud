@@ -1,7 +1,6 @@
 package vault.resource;
 
 import com.codahale.metrics.annotation.Timed;
-import vault.exception.BookNotFoundException;
 import vault.model.Book;
 import vault.service.RecommendationLifecycle;
 import vault.validation.annotations.UUID;
@@ -12,9 +11,10 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import static java.util.Optional.ofNullable;
 import static vault.resource.UriPathBuilder.buildUri;
 
 @Path("/recommendations/books")
@@ -53,20 +53,16 @@ public class BookResource {
     @Timed
     @Path("{id}")
     public Book getBook(@PathParam("id") @UUID String id) {
-        return ofNullable(tempDatasource.get(id))
-                .orElseThrow(() -> new BookNotFoundException(Response.Status.NOT_FOUND, id));
+        return lifecycle.getOne(id);
     }
 
     @PUT
     @Timed
     @Path("{id}")
     public Response updateBook(@PathParam("id") @UUID String id, @Valid Book book, @Context UriInfo uriInfo) {
-        book.setId(id);
+        boolean updated = lifecycle.update(id, book);
 
-        boolean created = !tempDatasource.containsKey(book.id());
-        tempDatasource.put(id, book);
-
-        if (created) {
+        if (!updated) {
             return Response.created(buildUri(uriInfo, book.id())).build();
         }
 
@@ -77,10 +73,8 @@ public class BookResource {
     @Timed
     @Path("{id}")
     public Response deleteBook(@PathParam("id") @UUID String id) {
-        Book book = tempDatasource.remove(id);
+        lifecycle.remove(id);
 
-        return ofNullable(book)
-                .map(it -> Response.noContent().build())
-                .orElseThrow(() -> new BookNotFoundException(Response.Status.NOT_FOUND, id));
+        return Response.noContent().build();
     }
 }
