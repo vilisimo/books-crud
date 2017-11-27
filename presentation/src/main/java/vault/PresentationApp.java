@@ -1,12 +1,12 @@
 package vault;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Environment;
 import vault.exception.ResourceExceptionMapper;
+import vault.modules.BookResourceModule;
 import vault.resource.BookResource;
-import vault.service.BookLifecycle;
-
-import java.util.concurrent.ConcurrentHashMap;
 
 public class PresentationApp extends Application<MainConfiguration> {
 
@@ -16,9 +16,11 @@ public class PresentationApp extends Application<MainConfiguration> {
 
     @Override
     public void run(MainConfiguration configuration, Environment environment) throws Exception {
+
         /* Resources */
-        final BookResource suggestions = new BookResource(new BookLifecycle(new ConcurrentHashMap<>()));
-        environment.jersey().register(suggestions);
+        Injector resourceInjector = Guice.createInjector(new BookResourceModule());
+        BookResource resource = resourceInjector.getInstance(BookResource.class);
+        environment.jersey().register(resource);
 
         /* Exception mappers */
         final ResourceExceptionMapper bookMapper = new ResourceExceptionMapper();

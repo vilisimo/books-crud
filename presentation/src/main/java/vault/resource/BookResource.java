@@ -5,15 +5,14 @@ import vault.model.Book;
 import vault.service.RecommendationLifecycle;
 import vault.validation.annotations.UUID;
 
+import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static vault.resource.UriPathBuilder.buildUri;
 
@@ -22,11 +21,9 @@ import static vault.resource.UriPathBuilder.buildUri;
 @Produces(MediaType.APPLICATION_JSON)
 public class BookResource {
 
-    // TODO: remove this when Book lifecycle is fully introduced: use Guice
-    private static final Map<String, Book> tempDatasource = new HashMap<>();
-
     private final RecommendationLifecycle<Book> lifecycle;
 
+    @Inject
     public BookResource(RecommendationLifecycle<Book> lifecycle) {
         this.lifecycle = lifecycle;
     }

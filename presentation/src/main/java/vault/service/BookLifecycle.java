@@ -3,25 +3,24 @@ package vault.service;
 import vault.exception.BookNotFoundException;
 import vault.model.Book;
 
+import javax.inject.Inject;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import static java.util.Objects.requireNonNull;
 import static java.util.Optional.ofNullable;
 
 public class BookLifecycle implements RecommendationLifecycle<Book> {
 
     // TODO: needs to have another dependency that deals with sending beans to persistence layer
-    // TODO: that dependency should be injected with Guice
     // TODO: most likely UUID will be returned by persistence layer
 
-    private Map<String, Book> datasource;
+    private final Map<String, Book> datasource;
 
+    @Inject
     public BookLifecycle(Map<String, Book> datasource) {
-        requireNonNull(datasource);
         this.datasource = datasource;
     }
 
