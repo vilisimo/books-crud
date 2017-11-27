@@ -6,10 +6,10 @@ import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
 @Provider
-public class BookNotFoundMapper implements ExceptionMapper<BookNotFoundException> {
+public class ResourceExceptionMapper implements ExceptionMapper<ResourceException> {
 
     @Override
-    public Response toResponse(BookNotFoundException exception) {
+    public Response toResponse(ResourceException exception) {
         ExceptionContext exceptionContext = new ExceptionContext(exception);
 
         return Response.status(Response.Status.NOT_FOUND)

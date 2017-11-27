@@ -2,7 +2,7 @@ package vault;
 
 import io.dropwizard.Application;
 import io.dropwizard.setup.Environment;
-import vault.exception.BookNotFoundMapper;
+import vault.exception.ResourceExceptionMapper;
 import vault.resource.BookResource;
 import vault.service.BookLifecycle;
 
@@ -21,7 +21,7 @@ public class PresentationApp extends Application<MainConfiguration> {
         environment.jersey().register(suggestions);
 
         /* Exception mappers */
-        final BookNotFoundMapper bookMapper = new BookNotFoundMapper();
+        final ResourceExceptionMapper bookMapper = new ResourceExceptionMapper();
         environment.jersey().register(bookMapper);
     }
 }

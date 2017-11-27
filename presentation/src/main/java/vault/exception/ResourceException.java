@@ -2,7 +2,7 @@ package vault.exception;
 
 import javax.ws.rs.core.Response;
 
-public abstract class ResourceException extends RuntimeException {
+abstract class ResourceException extends RuntimeException {
 
     private int status;
     private String resourceId;
@@ -13,11 +13,11 @@ public abstract class ResourceException extends RuntimeException {
         this.resourceId = resourceId;
     }
 
-    public int getStatus() {
+    int getStatus() {
         return status;
     }
 
-    public String getResourceId() {
+    String getResourceId() {
         return resourceId;
     }
 }
