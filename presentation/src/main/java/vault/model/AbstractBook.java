@@ -3,7 +3,7 @@ package vault.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.NotEmpty;
 
-public abstract class Recommendation {
+public abstract class AbstractBook {
 
     String id;
 
@@ -13,9 +13,9 @@ public abstract class Recommendation {
     @NotEmpty
     private String reason;
 
-    Recommendation() {}
+    AbstractBook() {}
 
-    Recommendation(String description, String reason) {
+    AbstractBook(String description, String reason) {
         this.description = description;
         this.reason = reason;
     }

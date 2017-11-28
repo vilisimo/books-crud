@@ -8,7 +8,7 @@ import javax.annotation.concurrent.Immutable;
 import java.util.UUID;
 
 @Immutable
-public class Book extends Recommendation {
+public class Book extends AbstractBook {
 
     @NotEmpty
     private String title;

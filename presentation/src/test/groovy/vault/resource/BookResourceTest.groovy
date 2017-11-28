@@ -12,6 +12,8 @@ import javax.ws.rs.core.Response
 
 class BookResourceTest extends Specification {
 
+    static final String booksEndpoint = "/books/"
+
     BookLifecycle lifecycle = Stub()
 
     @Rule
@@ -30,7 +32,7 @@ class BookResourceTest extends Specification {
                     "https://www.goodreads.com/book/show/5907.The_Hobbit")
 
         when: "book is posted"
-            def response = resources.client().target("/recommendations/books")
+            def response = resources.client().target(booksEndpoint)
                     .request(MediaType.APPLICATION_JSON_TYPE)
                     .post(Entity.json(book))
 
@@ -50,7 +52,7 @@ class BookResourceTest extends Specification {
 
     def "requesting all books returns a list of books"() {
         when: "a list of all books is requested"
-            def response = resources.client().target("/recommendations/books")
+            def response = resources.client().target(booksEndpoint)
                     .request(MediaType.APPLICATION_JSON)
                     .get()
 
@@ -72,7 +74,7 @@ class BookResourceTest extends Specification {
 
     def "requesting a book by id returns a book"() {
         when: "a book is requested by its id"
-            def response = resources.client().target("/recommendations/books/" + UUID.randomUUID().toString())
+            def response = resources.client().target(booksEndpoint + UUID.randomUUID().toString())
                     .request(MediaType.APPLICATION_JSON)
                     .get()
 
@@ -101,7 +103,7 @@ class BookResourceTest extends Specification {
                     "It is a light-hearted, easy to read and yet immersive book",
                     "https://www.amazon.com/Hobbit-J-R-Tolkien/dp/054792822X",
                     "https://www.goodreads.com/book/show/5907.The_Hobbit")
-            def response = resources.client().target("/recommendations/books/" + UUID.randomUUID().toString())
+            def response = resources.client().target(booksEndpoint + UUID.randomUUID().toString())
                     .request(MediaType.APPLICATION_JSON)
                     .put(Entity.json(book))
 
@@ -121,7 +123,7 @@ class BookResourceTest extends Specification {
                     "It is a light-hearted, easy to read and yet immersive book",
                     "https://www.amazon.com/Hobbit-J-R-Tolkien/dp/054792822X",
                     "https://www.goodreads.com/book/show/5907.The_Hobbit")
-            def response = resources.client().target("/recommendations/books/" + UUID.randomUUID().toString())
+            def response = resources.client().target(booksEndpoint + UUID.randomUUID().toString())
                         .request(MediaType.APPLICATION_JSON)
                         .put(Entity.json(book))
 
@@ -134,7 +136,7 @@ class BookResourceTest extends Specification {
 
     def "deleting a book removes it"() {
         when: "a book is deleted"
-            def response = resources.client().target("/recommendations/books/" + UUID.randomUUID().toString())
+            def response = resources.client().target(booksEndpoint + UUID.randomUUID().toString())
                         .request(MediaType.APPLICATION_JSON)
                         .delete()
 

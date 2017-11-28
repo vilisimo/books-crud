@@ -2,7 +2,7 @@ package vault.service;
 
 import java.util.List;
 
-public interface RecommendationLifecycle<T> {
+public interface Lifecycle<T> {
 
     String save(T entity);
 

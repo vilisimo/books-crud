@@ -2,7 +2,7 @@ package vault.resource;
 
 import com.codahale.metrics.annotation.Timed;
 import vault.model.Book;
-import vault.service.RecommendationLifecycle;
+import vault.service.Lifecycle;
 import vault.validation.annotations.UUID;
 
 import javax.inject.Inject;
@@ -16,15 +16,15 @@ import java.util.List;
 
 import static vault.resource.UriPathBuilder.buildUri;
 
-@Path("/recommendations/books")
+@Path("/books")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class BookResource {
 
-    private final RecommendationLifecycle<Book> lifecycle;
+    private final Lifecycle<Book> lifecycle;
 
     @Inject
-    public BookResource(RecommendationLifecycle<Book> lifecycle) {
+    public BookResource(Lifecycle<Book> lifecycle) {
         this.lifecycle = lifecycle;
     }
 
