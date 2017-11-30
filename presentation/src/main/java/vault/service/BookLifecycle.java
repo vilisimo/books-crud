@@ -1,6 +1,7 @@
 package vault.service;
 
 import vault.exception.BookNotFoundException;
+import vault.jms.TestJms;
 import vault.model.Book;
 
 import javax.inject.Inject;
@@ -18,10 +19,12 @@ public class BookLifecycle implements Lifecycle<Book> {
     // TODO: most likely UUID will be returned by persistence layer
 
     private final Map<String, Book> datasource;
+    private final TestJms testJms;
 
     @Inject
     public BookLifecycle(Map<String, Book> datasource) {
         this.datasource = datasource;
+        this.testJms = new TestJms();
     }
 
     @Override
@@ -36,6 +39,7 @@ public class BookLifecycle implements Lifecycle<Book> {
 
     @Override
     public List<Book> getAll() {
+        testJms.sendStuff();
         return new ArrayList<>(datasource.values());
     }
 
