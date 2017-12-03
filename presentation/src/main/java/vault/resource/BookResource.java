@@ -14,6 +14,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.util.List;
 
+import static vault.http.Headers.X_TOTAL_COUNT;
 import static vault.resource.UriPathBuilder.buildUri;
 
 @Path("/books")
@@ -43,7 +44,7 @@ public class BookResource {
     public Response getAllBooks() {
         List<Book> books = lifecycle.getAll();
 
-        return Response.ok(books).build();
+        return Response.ok(books).header(X_TOTAL_COUNT, books.size()).build();
     }
 
     @GET

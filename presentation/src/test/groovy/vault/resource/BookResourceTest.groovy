@@ -72,6 +72,24 @@ class BookResourceTest extends Specification {
             response.hasEntity()
     }
 
+    def "requesting all books includes X-Total-Count header"() {
+        when: "a list of all books is requested"
+            def response = resources.client().target(booksEndpoint)
+                    .request(MediaType.APPLICATION_JSON)
+                    .get()
+
+        then: "lifecycle returns a list of 2 books"
+            lifecycle.getAll() >> [Mock(Book.class), Mock(Book.class)]
+
+        and: "resource returns status OK"
+            response.getStatusInfo() == Response.Status.OK
+
+        and: "a header specifying total size is included"
+            response.getHeaders().containsKey("X-Total-Count")
+            def totalCount = response.getHeaders().get("X-Total-Count")
+            totalCount.get(0) == "2"
+    }
+
     def "requesting a book by id returns a book"() {
         when: "a book is requested by its id"
             def response = resources.client().target(booksEndpoint + UUID.randomUUID().toString())
