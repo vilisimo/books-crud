@@ -11,7 +11,7 @@ public class PersistenceApp extends Application<MainConfiguration> {
     }
 
     @Override
-    public void run(MainConfiguration configuration, Environment environment) throws Exception {
+    public void run(MainConfiguration configuration, Environment environment) {
         environment.jersey().register(new TestConsumer());
     }
 }
