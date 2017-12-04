@@ -1,8 +1,17 @@
 package vault.jms;
 
+import org.apache.camel.Consume;
+
 public class TestBean {
 
-    public void report() {
-        System.err.println("Reporting");
+    @Consume(uri = "activemq:foo.bar")
+    public String report(String stuff) {
+        System.err.println("Consuming: " + stuff);
+        return "tested";
+    }
+
+    public String placeholder() {
+        System.err.println("Placeholder");
+        return "placeholder";
     }
 }

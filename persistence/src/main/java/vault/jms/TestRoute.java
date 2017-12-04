@@ -7,8 +7,8 @@ public class TestRoute extends RouteBuilder {
     private static final String queue = "activemq:foo.bar";
 
     @Override
-    public void configure() throws Exception {
+    public void configure() {
         from(queue)
-                .bean(TestBean.class, "report");
+                .bean(TestBean.class);
     }
 }
