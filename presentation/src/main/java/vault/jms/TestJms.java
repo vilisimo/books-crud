@@ -9,22 +9,15 @@ public class TestJms {
 
     private ProducerTemplate template;
 
+    // TODO: provide context instead of factory? Use Guice to resolve it
     public TestJms(ContextFactory factory) {
-
         context = factory.getContext();
         template = context.createProducerTemplate();
         template.setDefaultEndpoint(context.getEndpoint("activemq:foo.bar?exchangePattern=InOut"));
-
-        try {
-            context.start();
-        } catch (Exception e) {
-            System.err.println("Error: " + e.getMessage());
-        }
     }
 
-    public void sendStuff() {
+    public void send() {
         Object response = template.requestBody("Test");
         System.err.println("Response: " + response);
     }
-
 }

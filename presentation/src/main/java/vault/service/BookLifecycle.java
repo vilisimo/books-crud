@@ -22,6 +22,7 @@ public class BookLifecycle implements Lifecycle<Book> {
     private final Map<String, Book> datasource;
     private final TestJms testJms;
 
+    // TODO: provide JMS component via Guice
     @Inject
     public BookLifecycle(Map<String, Book> datasource) {
         this.datasource = datasource;
@@ -40,7 +41,7 @@ public class BookLifecycle implements Lifecycle<Book> {
 
     @Override
     public List<Book> getAll() {
-        testJms.sendStuff();
+        testJms.send();
         return new ArrayList<>(datasource.values());
     }
 
