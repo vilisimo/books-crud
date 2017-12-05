@@ -1,10 +1,7 @@
 package vault.jms;
 
-import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.camel.CamelContext;
 import org.apache.camel.ProducerTemplate;
-import org.apache.camel.component.jms.JmsComponent;
-import org.apache.camel.impl.DefaultCamelContext;
 
 public class TestJms {
 
@@ -12,13 +9,9 @@ public class TestJms {
 
     private ProducerTemplate template;
 
-    public TestJms() {
+    public TestJms(ContextFactory factory) {
 
-        context = new DefaultCamelContext();
-        ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory("tcp://localhost:61616");
-        connectionFactory.setTrustAllPackages(true);
-        context.addComponent("jms", JmsComponent.jmsComponentAutoAcknowledge(connectionFactory));
-
+        context = factory.getContext();
         template = context.createProducerTemplate();
         template.setDefaultEndpoint(context.getEndpoint("activemq:foo.bar?exchangePattern=InOut"));
 

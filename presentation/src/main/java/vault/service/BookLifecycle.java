@@ -1,6 +1,7 @@
 package vault.service;
 
 import vault.exception.BookNotFoundException;
+import vault.jms.ActiveMqContextFactory;
 import vault.jms.TestJms;
 import vault.model.Book;
 
@@ -24,7 +25,7 @@ public class BookLifecycle implements Lifecycle<Book> {
     @Inject
     public BookLifecycle(Map<String, Book> datasource) {
         this.datasource = datasource;
-        this.testJms = new TestJms();
+        this.testJms = new TestJms(new ActiveMqContextFactory());
     }
 
     @Override
