@@ -1,8 +1,7 @@
 package vault.service;
 
 import vault.exception.BookNotFoundException;
-import vault.jms.ActiveMqContextFactory;
-import vault.jms.TestJms;
+import vault.jms.StorageIntegration;
 import vault.model.Book;
 
 import javax.inject.Inject;
@@ -20,13 +19,12 @@ public class BookLifecycle implements Lifecycle<Book> {
     // TODO: most likely UUID will be returned by persistence layer
 
     private final Map<String, Book> datasource;
-    private final TestJms testJms;
+    private final StorageIntegration storage;
 
-    // TODO: provide JMS component via Guice
     @Inject
-    public BookLifecycle(Map<String, Book> datasource) {
+    public BookLifecycle(Map<String, Book> datasource, StorageIntegration storage) {
         this.datasource = datasource;
-        this.testJms = new TestJms(new ActiveMqContextFactory());
+        this.storage = storage;
     }
 
     @Override
@@ -41,7 +39,7 @@ public class BookLifecycle implements Lifecycle<Book> {
 
     @Override
     public List<Book> getAll() {
-        testJms.send();
+        storage.send();
         return new ArrayList<>(datasource.values());
     }
 

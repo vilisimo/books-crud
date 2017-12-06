@@ -2,6 +2,7 @@ package vault.service
 
 import spock.lang.Specification
 import vault.exception.BookNotFoundException
+import vault.jms.StorageIntegration
 import vault.model.Book
 
 class BookLifecycleTest extends Specification {
@@ -9,7 +10,8 @@ class BookLifecycleTest extends Specification {
     // TODO: mock Camel stuff out
 
     def datasource = new HashMap<String, Book>()
-    def lifecycle = new BookLifecycle(datasource)
+    def storage = Mock(StorageIntegration)
+    def lifecycle = new BookLifecycle(datasource, storage)
 
     def "book is saved"() {
         given: "a book"
