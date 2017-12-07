@@ -10,7 +10,7 @@ public class StorageIntegration {
 
     private static final String TEST_ENDPOINT = "activemq:foo.bar?exchangePattern=InOut";
 
-    private ProducerTemplate template;
+    private final ProducerTemplate template;
 
     @Inject
     public StorageIntegration(CamelContext context) {
