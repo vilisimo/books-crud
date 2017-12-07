@@ -11,7 +11,7 @@ import vault.jms.StorageIntegration;
 
 import javax.jms.ConnectionFactory;
 
-public class JmsModule extends AbstractModule {
+public class StorageIntegrationModule extends AbstractModule {
 
     private static final String ACTIVE_MQ_ADDRESS = "tcp://localhost:61616";
 
