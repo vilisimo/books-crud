@@ -22,6 +22,8 @@ import static vault.resource.UriPathBuilder.buildUri;
 @Produces(MediaType.APPLICATION_JSON)
 public class BookResource {
 
+    // TODO: fix errors on null body
+
     private final Lifecycle<Book> lifecycle;
 
     @Inject
