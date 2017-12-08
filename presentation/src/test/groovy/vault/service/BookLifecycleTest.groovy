@@ -7,8 +7,6 @@ import vault.model.Book
 
 class BookLifecycleTest extends Specification {
 
-    // TODO: mock Camel stuff out
-
     def datasource = new HashMap<String, Book>()
     def storage = Mock(StorageIntegration)
     def lifecycle = new BookLifecycle(datasource, storage)

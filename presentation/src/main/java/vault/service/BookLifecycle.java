@@ -15,7 +15,6 @@ import static java.util.Optional.ofNullable;
 
 public class BookLifecycle implements Lifecycle<Book> {
 
-    // TODO: needs to have another dependency that deals with sending beans to persistence layer
     // TODO: most likely UUID will be returned by persistence layer
 
     private final Map<String, Book> datasource;
