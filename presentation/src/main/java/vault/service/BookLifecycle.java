@@ -31,6 +31,7 @@ public class BookLifecycle implements Lifecycle<Book> {
         String uuid = UUID.randomUUID().toString();
         book.setId(uuid);
 
+        storage.save(book);
         datasource.put(uuid, book);
 
         return uuid;
