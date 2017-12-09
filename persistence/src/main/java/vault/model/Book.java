@@ -19,9 +19,6 @@ public class Book {
     @NotEmpty
     private String description;
 
-    @NotEmpty
-    private String reason;
-
     @URL
     private String amazon;
 
@@ -37,7 +34,6 @@ public class Book {
         this.title = title;
         this.author = author;
         this.description = description;
-        this.reason = reason;
     }
 
     @JsonProperty
@@ -74,10 +70,6 @@ public class Book {
         return description;
     }
 
-    @JsonProperty
-    public String reason() {
-        return reason;
-    }
 
     @Override
     public String toString() {

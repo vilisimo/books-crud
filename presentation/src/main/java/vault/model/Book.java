@@ -8,7 +8,12 @@ import javax.annotation.concurrent.Immutable;
 import java.util.UUID;
 
 @Immutable
-public class Book extends AbstractBook {
+public class Book {
+
+    private String id;
+
+    @NotEmpty
+    private String description;
 
     @NotEmpty
     private String title;
@@ -25,13 +30,22 @@ public class Book extends AbstractBook {
     private Book() {}
 
     // TODO: add validations in case POJO is created manually
-    public Book(String title, String author, String description, String reason, String amazon, String goodreads) {
-        super(description, reason);
+    public Book(String title, String author, String description, String amazon, String goodreads) {
         this.id = UUID.randomUUID().toString();
         this.amazon = amazon;
         this.goodreads = goodreads;
         this.title = title;
         this.author = author;
+        this.description = description;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    @JsonProperty
+    public String id() {
+        return id;
     }
 
     @JsonProperty
@@ -42,6 +56,11 @@ public class Book extends AbstractBook {
     @JsonProperty
     public String author() {
         return author;
+    }
+
+    @JsonProperty
+    public String description() {
+        return description;
     }
 
     @JsonProperty

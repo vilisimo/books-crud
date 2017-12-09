@@ -27,7 +27,6 @@ class BookResourceTest extends Specification {
                     "J.R.R. Tolkien",
                     "The Hobbit",
                     "A book about a hobbit's adventures",
-                    "It is a light-hearted, easy to read and yet immersive book",
                     "https://www.amazon.com/Hobbit-J-R-Tolkien/dp/054792822X",
                     "https://www.goodreads.com/book/show/5907.The_Hobbit")
 
@@ -61,7 +60,6 @@ class BookResourceTest extends Specification {
                     "J.R.R. Tolkien",
                     "The Hobbit",
                     "A book about a hobbit's adventures",
-                    "It is a light-hearted, easy to read and yet immersive book",
                     "https://www.amazon.com/Hobbit-J-R-Tolkien/dp/054792822X",
                     "https://www.goodreads.com/book/show/5907.The_Hobbit")]
 
@@ -101,7 +99,6 @@ class BookResourceTest extends Specification {
                     "J.R.R. Tolkien",
                     "The Hobbit",
                     "A book about a hobbit's adventures",
-                    "It is a light-hearted, easy to read and yet immersive book",
                     "https://www.amazon.com/Hobbit-J-R-Tolkien/dp/054792822X",
                     "https://www.goodreads.com/book/show/5907.The_Hobbit")
 
@@ -118,7 +115,6 @@ class BookResourceTest extends Specification {
                     "J.R.R. Tolkien",
                     "The Hobbit",
                     "A book about a hobbit's adventures",
-                    "It is a light-hearted, easy to read and yet immersive book",
                     "https://www.amazon.com/Hobbit-J-R-Tolkien/dp/054792822X",
                     "https://www.goodreads.com/book/show/5907.The_Hobbit")
             def response = resources.client().target(booksEndpoint + UUID.randomUUID().toString())
@@ -138,7 +134,6 @@ class BookResourceTest extends Specification {
                     "J.R.R. Tolkien",
                     "The Hobbit",
                     "A book about a hobbit's adventures",
-                    "It is a light-hearted, easy to read and yet immersive book",
                     "https://www.amazon.com/Hobbit-J-R-Tolkien/dp/054792822X",
                     "https://www.goodreads.com/book/show/5907.The_Hobbit")
             def response = resources.client().target(booksEndpoint + UUID.randomUUID().toString())

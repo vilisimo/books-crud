@@ -17,7 +17,6 @@ class BookLifecycleTest extends Specification {
                     "The Colour of Magic",
                     "Terry Pratchett",
                     "A book about a wizard",
-                    "Good laugh",
                     "https://www.amazon.co.uk/Colour-Magic-Discworld-Novel-Novels/dp/0552166596",
                     "https://www.goodreads.com/book/show/34497.The_Color_of_Magic")
 
@@ -37,7 +36,6 @@ class BookLifecycleTest extends Specification {
                     "The Colour of Magic",
                     "Terry Pratchett",
                     "A book about a wizard",
-                    "Good laugh",
                     "https://www.amazon.co.uk/Colour-Magic-Discworld-Novel-Novels/dp/0552166596",
                     "https://www.goodreads.com/book/show/34497.The_Color_of_Magic")
 
@@ -54,14 +52,12 @@ class BookLifecycleTest extends Specification {
                     "The Colour of Magic",
                     "Terry Pratchett",
                     "A book about a wizard",
-                    "Good laugh",
                     "https://www.amazon.co.uk/Colour-Magic-Discworld-Novel-Novels/dp/0552166596",
                     "https://www.goodreads.com/book/show/34497.The_Color_of_Magic")
             def tlf = new Book(
                     "The Light Fantastic",
                     "Terry Pratchett",
                     "A book about a wizard",
-                    "Good laugh",
                     "https://www.amazon.co.uk/Light-Fantastic-Discworld-Novel-Novels/dp/055216660X/",
                     "https://www.goodreads.com/book/show/34506.The_Light_Fantastic")
 
@@ -93,7 +89,6 @@ class BookLifecycleTest extends Specification {
                     "The Colour of Magic",
                     "Terry Pratchett",
                     "A book about a wizard",
-                    "Good laugh",
                     "https://www.amazon.co.uk/Colour-Magic-Discworld-Novel-Novels/dp/0552166596",
                     "https://www.goodreads.com/book/show/34497.The_Color_of_Magic")
             datasource.put("book", book)
@@ -122,7 +117,6 @@ class BookLifecycleTest extends Specification {
                     "The Colour of Magic",
                     "Terry Pratchett",
                     "A book about a wizard",
-                    "Good laugh",
                     "https://www.amazon.co.uk/Colour-Magic-Discworld-Novel-Novels/dp/0552166596",
                     "https://www.goodreads.com/book/show/34497.The_Color_of_Magic")
             datasource.put("book", book)
@@ -132,7 +126,6 @@ class BookLifecycleTest extends Specification {
                     "The Light Fantastic",
                     "Terry Pratchett",
                     "A book about a wizard",
-                    "Good laugh",
                     "https://www.amazon.co.uk/Light-Fantastic-Discworld-Novel-Novels/dp/055216660X/",
                     "https://www.goodreads.com/book/show/34506.The_Light_Fantastic")
             def updated = lifecycle.update("book", tlf)
@@ -155,7 +148,6 @@ class BookLifecycleTest extends Specification {
                     "The Colour of Magic",
                     "Terry Pratchett",
                     "A book about a wizard",
-                    "Good laugh",
                     "https://www.amazon.co.uk/Colour-Magic-Discworld-Novel-Novels/dp/0552166596",
                     "https://www.goodreads.com/book/show/34497.The_Color_of_Magic")
             def updated = lifecycle.update("book", book)
@@ -173,7 +165,6 @@ class BookLifecycleTest extends Specification {
                     "The Colour of Magic",
                     "Terry Pratchett",
                     "A book about a wizard",
-                    "Good laugh",
                     "https://www.amazon.co.uk/Colour-Magic-Discworld-Novel-Novels/dp/0552166596",
                     "https://www.goodreads.com/book/show/34497.The_Color_of_Magic")
             datasource.put("book", book)
