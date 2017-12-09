@@ -12,21 +12,21 @@ public class TestBean {
     private static final ObjectMapper mapper = new ObjectMapper();
 
     @Consume(uri = "activemq:foo.bar")
-    public String report(String stuff) {
+    public String report(String payload) {
         Optional<Book> book = Optional.empty();
 
         try {
-            book = Optional.ofNullable(mapper.readValue(stuff, Book.class));
+            book = Optional.ofNullable(mapper.readValue(payload, Book.class));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         System.out.println("Consuming book: " + book.map(Book::toString).orElse("nothing"));
-        return "tested";
+        return "successful";
     }
 
-    public String placeholder() {
-        System.err.println("Placeholder");
-        return "placeholder";
+    @Consume(uri = "activemq:foo.bar.simple")
+    public void consumeSimple(String payload) {
+        System.err.println("Consuming payload: " + payload);
     }
 }

@@ -12,6 +12,7 @@ import javax.inject.Inject;
 public class StorageIntegration {
 
     private static final String TEST_ENDPOINT = "activemq:foo.bar?exchangePattern=InOut";
+    private static final String TEST_SIMPLE_ENDPOINT = "activemq:foo.bar.simple";
     private static final ObjectMapper mapper = new ObjectMapper();
 
 
@@ -25,8 +26,8 @@ public class StorageIntegration {
     }
 
     public void send() {
-        Object response = template.requestBody("Test");
-        System.err.println("Response: " + response);
+        template.sendBody(TEST_SIMPLE_ENDPOINT, "Test payload");
+        System.err.println("Poked persistence layer");
     }
 
     public void save(Book book) {
