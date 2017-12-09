@@ -13,13 +13,13 @@ public class Book {
     private String id;
 
     @NotEmpty
-    private String description;
+    private String author;
 
     @NotEmpty
     private String title;
 
     @NotEmpty
-    private String author;
+    private String description;
 
     @URL
     private String amazon;
@@ -30,7 +30,7 @@ public class Book {
     private Book() {}
 
     // TODO: add validations in case POJO is created manually
-    public Book(String title, String author, String description, String amazon, String goodreads) {
+    public Book(String author, String title, String description, String amazon, String goodreads) {
         this.id = UUID.randomUUID().toString();
         this.amazon = amazon;
         this.goodreads = goodreads;
@@ -49,13 +49,13 @@ public class Book {
     }
 
     @JsonProperty
-    public String title() {
-        return title;
+    public String author() {
+        return author;
     }
 
     @JsonProperty
-    public String author() {
-        return author;
+    public String title() {
+        return title;
     }
 
     @JsonProperty

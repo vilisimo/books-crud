@@ -14,8 +14,8 @@ class BookLifecycleTest extends Specification {
     def "book is saved"() {
         given: "a book"
             def book = new Book(
-                    "The Colour of Magic",
                     "Terry Pratchett",
+                    "The Colour of Magic",
                     "A book about a wizard",
                     "https://www.amazon.co.uk/Colour-Magic-Discworld-Novel-Novels/dp/0552166596",
                     "https://www.goodreads.com/book/show/34497.The_Color_of_Magic")
@@ -33,8 +33,8 @@ class BookLifecycleTest extends Specification {
     def "saved book is assigned an id"() {
         given: "a book"
             def book = new Book(
-                    "The Colour of Magic",
                     "Terry Pratchett",
+                    "The Colour of Magic",
                     "A book about a wizard",
                     "https://www.amazon.co.uk/Colour-Magic-Discworld-Novel-Novels/dp/0552166596",
                     "https://www.goodreads.com/book/show/34497.The_Color_of_Magic")
@@ -49,14 +49,14 @@ class BookLifecycleTest extends Specification {
     def "all saved books can be retrieved from the lifecycle"() {
         given: "several books are saved"
             def tcom = new Book(
-                    "The Colour of Magic",
                     "Terry Pratchett",
+                    "The Colour of Magic",
                     "A book about a wizard",
                     "https://www.amazon.co.uk/Colour-Magic-Discworld-Novel-Novels/dp/0552166596",
                     "https://www.goodreads.com/book/show/34497.The_Color_of_Magic")
             def tlf = new Book(
-                    "The Light Fantastic",
                     "Terry Pratchett",
+                    "The Light Fantastic",
                     "A book about a wizard",
                     "https://www.amazon.co.uk/Light-Fantastic-Discworld-Novel-Novels/dp/055216660X/",
                     "https://www.goodreads.com/book/show/34506.The_Light_Fantastic")
@@ -86,8 +86,8 @@ class BookLifecycleTest extends Specification {
     def "saved book can be retrieved from the lifecycle"() {
         given: "a book is saved"
             def book = new Book(
-                    "The Colour of Magic",
                     "Terry Pratchett",
+                    "The Colour of Magic",
                     "A book about a wizard",
                     "https://www.amazon.co.uk/Colour-Magic-Discworld-Novel-Novels/dp/0552166596",
                     "https://www.goodreads.com/book/show/34497.The_Color_of_Magic")
@@ -114,8 +114,8 @@ class BookLifecycleTest extends Specification {
     def "saved book can be updated"() {
         given: "a book that exists in a datasource"
             def book = new Book(
-                    "The Colour of Magic",
                     "Terry Pratchett",
+                    "The Colour of Magic",
                     "A book about a wizard",
                     "https://www.amazon.co.uk/Colour-Magic-Discworld-Novel-Novels/dp/0552166596",
                     "https://www.goodreads.com/book/show/34497.The_Color_of_Magic")
@@ -123,8 +123,8 @@ class BookLifecycleTest extends Specification {
 
         when: "user updates the book"
             def tlf = new Book(
-                    "The Light Fantastic",
                     "Terry Pratchett",
+                    "The Light Fantastic",
                     "A book about a wizard",
                     "https://www.amazon.co.uk/Light-Fantastic-Discworld-Novel-Novels/dp/055216660X/",
                     "https://www.goodreads.com/book/show/34506.The_Light_Fantastic")
@@ -145,8 +145,8 @@ class BookLifecycleTest extends Specification {
 
         when: "non-existent book is updated"
             def book = new Book(
-                    "The Colour of Magic",
                     "Terry Pratchett",
+                    "The Colour of Magic",
                     "A book about a wizard",
                     "https://www.amazon.co.uk/Colour-Magic-Discworld-Novel-Novels/dp/0552166596",
                     "https://www.goodreads.com/book/show/34497.The_Color_of_Magic")
@@ -162,8 +162,8 @@ class BookLifecycleTest extends Specification {
     def "delete removes book from the datasource"() {
         given: "a book exists in data source"
             def book = new Book(
-                    "The Colour of Magic",
                     "Terry Pratchett",
+                    "The Colour of Magic",
                     "A book about a wizard",
                     "https://www.amazon.co.uk/Colour-Magic-Discworld-Novel-Novels/dp/0552166596",
                     "https://www.goodreads.com/book/show/34497.The_Color_of_Magic")
