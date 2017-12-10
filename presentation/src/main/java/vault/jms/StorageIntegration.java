@@ -15,7 +15,6 @@ public class StorageIntegration {
     private static final String TEST_SIMPLE_ENDPOINT = "activemq:foo.bar.simple";
     private static final ObjectMapper mapper = new ObjectMapper();
 
-
     private final ProducerTemplate template;
 
     @Inject
