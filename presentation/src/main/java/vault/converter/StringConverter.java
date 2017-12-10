@@ -1,0 +1,36 @@
+package vault.converter;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import vault.exception.MappingException;
+
+import java.io.IOException;
+
+public class StringConverter implements Converter {
+
+    private static final ObjectMapper mapper = new ObjectMapper();
+
+    static {
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    }
+
+    @Override
+    public String asString(Object object) {
+        try {
+            return mapper.writeValueAsString(object);
+        } catch (JsonProcessingException e) {
+            throw new MappingException("Conversion of an object to a String has failed", e);
+        }
+    }
+
+    @Override
+    public <T> T asObject(String object, TypeReference<T> typeToken) {
+        try {
+            return mapper.readValue(object, typeToken);
+        } catch (IOException e) {
+            throw new MappingException("Conversion of a string to an object has failed", e);
+        }
+    }
+}
