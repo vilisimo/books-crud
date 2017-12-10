@@ -33,6 +33,10 @@ public class StringConverter implements Converter {
     public <T> T asObject(String object, TypeReference<T> typeToken) {
         requireNonNull(object, "Null cannot be converted to a target object");
 
+        if (object.isEmpty()) {
+            throw new IllegalArgumentException("Object string should not be empty");
+        }
+
         try {
             return mapper.readValue(object, typeToken);
         } catch (IOException e) {

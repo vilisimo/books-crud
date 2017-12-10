@@ -69,6 +69,14 @@ class StringConverterTest extends Specification {
             thrown(NullPointerException.class)
     }
 
+    def  "An empty string is not converted to an object"() {
+        when: "an empty string is passed in"
+            converter.asObject("", new TypeReference<Contrived>() {})
+
+        then: "it is rejected"
+            thrown(IllegalArgumentException.class)
+    }
+
     @EqualsAndHashCode
     private static class Contrived {
         int id
