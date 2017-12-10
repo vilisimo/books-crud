@@ -55,6 +55,20 @@ class StringConverterTest extends Specification {
             result == expected
     }
 
+    def "A value of 'null' is rejected"() {
+        when: "a value of null is attempted to convert to a string"
+            converter.asString(null)
+
+        then: "it is rejected"
+            thrown(NullPointerException.class)
+
+        when: "a value of null is attempted to convert to an object"
+            converter.asObject(null, new TypeReference<Contrived>() {})
+
+        then: "it is rejected"
+            thrown(NullPointerException.class)
+    }
+
     @EqualsAndHashCode
     private static class Contrived {
         int id

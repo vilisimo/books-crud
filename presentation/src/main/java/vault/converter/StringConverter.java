@@ -8,6 +8,8 @@ import vault.exception.MappingException;
 
 import java.io.IOException;
 
+import static java.util.Objects.requireNonNull;
+
 public class StringConverter implements Converter {
 
     private static final ObjectMapper mapper = new ObjectMapper();
@@ -18,6 +20,8 @@ public class StringConverter implements Converter {
 
     @Override
     public String asString(Object object) {
+        requireNonNull(object, "Null cannot be converted to a string");
+
         try {
             return mapper.writeValueAsString(object);
         } catch (JsonProcessingException e) {
@@ -27,6 +31,8 @@ public class StringConverter implements Converter {
 
     @Override
     public <T> T asObject(String object, TypeReference<T> typeToken) {
+        requireNonNull(object, "Null cannot be converted to a target object");
+
         try {
             return mapper.readValue(object, typeToken);
         } catch (IOException e) {
