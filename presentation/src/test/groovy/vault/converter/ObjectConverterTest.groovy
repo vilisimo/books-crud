@@ -5,10 +5,10 @@ import groovy.transform.EqualsAndHashCode
 import spock.lang.Shared
 import spock.lang.Specification
 
-class StringConverterTest extends Specification {
+class ObjectConverterTest extends Specification {
 
     @Shared
-    def converter = new StringConverter()
+    def converter = new ObjectConverter()
 
     def "Object is converted to a String"() {
         given: "an object"

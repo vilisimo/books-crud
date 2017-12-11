@@ -10,7 +10,7 @@ import java.io.IOException;
 
 import static java.util.Objects.requireNonNull;
 
-public class StringConverter implements Converter {
+public class ObjectConverter implements Converter {
 
     private static final ObjectMapper mapper = new ObjectMapper();
 
