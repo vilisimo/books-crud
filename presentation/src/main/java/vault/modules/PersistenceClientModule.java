@@ -11,7 +11,7 @@ import vault.jms.PersistenceClient;
 
 import javax.jms.ConnectionFactory;
 
-public class StorageIntegrationModule extends AbstractModule {
+public class PersistenceClientModule extends AbstractModule {
 
     private static final String ACTIVE_MQ_ADDRESS = "tcp://localhost:61616";
 

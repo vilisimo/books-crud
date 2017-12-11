@@ -1,7 +1,7 @@
 package vault.service;
 
 import vault.exception.BookNotFoundException;
-import vault.jms.StorageIntegration;
+import vault.jms.PersistenceClient;
 import vault.model.Book;
 
 import javax.inject.Inject;
@@ -18,10 +18,10 @@ public class BookLifecycle implements Lifecycle<Book> {
     // TODO: most likely UUID will be returned by persistence layer
 
     private final Map<String, Book> datasource;
-    private final StorageIntegration storage;
+    private final PersistenceClient storage;
 
     @Inject
-    public BookLifecycle(Map<String, Book> datasource, StorageIntegration storage) {
+    public BookLifecycle(Map<String, Book> datasource, PersistenceClient storage) {
         this.datasource = datasource;
         this.storage = storage;
     }

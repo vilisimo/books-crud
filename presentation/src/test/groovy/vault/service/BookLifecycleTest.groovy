@@ -2,13 +2,13 @@ package vault.service
 
 import spock.lang.Specification
 import vault.exception.BookNotFoundException
-import vault.jms.StorageIntegration
+import vault.jms.PersistenceClient
 import vault.model.Book
 
 class BookLifecycleTest extends Specification {
 
     def datasource = new HashMap<String, Book>()
-    def storage = Mock(StorageIntegration)
+    def storage = Mock(PersistenceClient)
     def lifecycle = new BookLifecycle(datasource, storage)
 
     def "book is saved"() {
