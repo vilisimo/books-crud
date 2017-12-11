@@ -6,7 +6,7 @@ import io.dropwizard.Application;
 import io.dropwizard.setup.Environment;
 import vault.exception.ResourceExceptionMapper;
 import vault.modules.BookResourceModule;
-import vault.modules.StorageIntegrationModule;
+import vault.modules.PersistenceClientModule;
 import vault.resource.BookResource;
 
 public class PresentationApp extends Application<MainConfiguration> {
@@ -19,7 +19,7 @@ public class PresentationApp extends Application<MainConfiguration> {
     public void run(MainConfiguration configuration, Environment environment) {
 
         /* Resources */
-        Injector resourceInjector = Guice.createInjector(new BookResourceModule(), new StorageIntegrationModule());
+        Injector resourceInjector = Guice.createInjector(new BookResourceModule(), new PersistenceClientModule());
         BookResource resource = resourceInjector.getInstance(BookResource.class);
         environment.jersey().register(resource);
 

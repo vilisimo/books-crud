@@ -5,6 +5,8 @@ import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.camel.CamelContext;
+import vault.converter.Converter;
+import vault.converter.ObjectConverter;
 import vault.jms.JmsContextCreator;
 import vault.jms.ContextCreator;
 import vault.jms.PersistenceClient;
@@ -17,7 +19,9 @@ public class PersistenceClientModule extends AbstractModule {
 
     /** Configures {@link PersistenceClient} */
     @Override
-    protected void configure() {}
+    protected void configure() {
+        bind(Converter.class).to(ObjectConverter.class);
+    }
 
     @Provides
     @Singleton

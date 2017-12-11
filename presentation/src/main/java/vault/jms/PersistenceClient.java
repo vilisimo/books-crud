@@ -1,10 +1,9 @@
 package vault.jms;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.camel.CamelContext;
 import org.apache.camel.Endpoint;
 import org.apache.camel.ProducerTemplate;
+import vault.converter.Converter;
 import vault.model.Book;
 
 import javax.inject.Inject;
@@ -13,15 +12,20 @@ public class PersistenceClient {
 
     private static final String TEST_ENDPOINT = "activemq:foo.bar?exchangePattern=InOut";
     private static final String TEST_SIMPLE_ENDPOINT = "activemq:foo.bar.simple";
-    private static final ObjectMapper mapper = new ObjectMapper();
 
     private final ProducerTemplate template;
 
+    private final Converter converter;
+
+
     @Inject
-    public PersistenceClient(CamelContext context) {
+    public PersistenceClient(CamelContext context, Converter converter) {
+        this.converter = converter;
+
         template = context.createProducerTemplate();
         Endpoint testEndpoint = context.getEndpoint(TEST_ENDPOINT);
         template.setDefaultEndpoint(testEndpoint);
+
     }
 
     public void send() {
@@ -30,12 +34,7 @@ public class PersistenceClient {
     }
 
     public void save(Book book) {
-        String bookString = null;
-        try {
-            bookString = mapper.writeValueAsString(book);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
+        String bookString = converter.asString(book);
         template.sendBody(bookString);
     }
 }
