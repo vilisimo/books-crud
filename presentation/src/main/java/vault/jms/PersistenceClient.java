@@ -17,7 +17,6 @@ public class PersistenceClient {
 
     private final Converter converter;
 
-
     @Inject
     public PersistenceClient(CamelContext context, Converter converter) {
         this.converter = converter;
@@ -25,7 +24,6 @@ public class PersistenceClient {
         template = context.createProducerTemplate();
         Endpoint testEndpoint = context.getEndpoint(TEST_ENDPOINT);
         template.setDefaultEndpoint(testEndpoint);
-
     }
 
     public void send() {

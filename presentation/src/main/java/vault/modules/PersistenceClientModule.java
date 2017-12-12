@@ -7,8 +7,8 @@ import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.camel.CamelContext;
 import vault.converter.Converter;
 import vault.converter.ObjectConverter;
-import vault.jms.JmsContextCreator;
 import vault.jms.ContextCreator;
+import vault.jms.JmsContextCreator;
 import vault.jms.PersistenceClient;
 
 import javax.jms.ConnectionFactory;
