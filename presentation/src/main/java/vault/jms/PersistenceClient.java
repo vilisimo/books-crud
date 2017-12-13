@@ -18,6 +18,8 @@ public class PersistenceClient {
     private final Converter converter;
 
     @Inject
+    // TODO: why expect camel context, when you can expect template
+    // TODO: add context configuration class
     public PersistenceClient(CamelContext context, Converter converter) {
         this.converter = converter;
 
