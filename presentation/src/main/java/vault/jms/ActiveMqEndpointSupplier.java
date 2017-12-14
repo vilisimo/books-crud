@@ -3,6 +3,8 @@ package vault.jms;
 import org.apache.camel.CamelContext;
 import org.apache.camel.Endpoint;
 
+import javax.inject.Inject;
+
 public class ActiveMqEndpointSupplier implements EndpointSupplier {
 
     private static final String ACTIVE_MQ_PREFIX = "activemq:";
@@ -11,6 +13,7 @@ public class ActiveMqEndpointSupplier implements EndpointSupplier {
 
     private CamelContext context;
 
+    @Inject
     public ActiveMqEndpointSupplier(CamelContext context) {
         this.context = context;
     }

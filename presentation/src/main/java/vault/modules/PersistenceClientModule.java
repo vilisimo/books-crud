@@ -5,11 +5,10 @@ import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.camel.CamelContext;
+import org.apache.camel.ProducerTemplate;
 import vault.converter.Converter;
 import vault.converter.ObjectConverter;
-import vault.jms.ContextCreator;
-import vault.jms.JmsContextCreator;
-import vault.jms.PersistenceClient;
+import vault.jms.*;
 
 import javax.jms.ConnectionFactory;
 
@@ -21,6 +20,7 @@ public class PersistenceClientModule extends AbstractModule {
     @Override
     protected void configure() {
         bind(Converter.class).to(ObjectConverter.class);
+        bind(EndpointSupplier.class).to(ActiveMqEndpointSupplier.class);
     }
 
     @Provides
@@ -35,5 +35,11 @@ public class PersistenceClientModule extends AbstractModule {
         ContextCreator creator = new JmsContextCreator(connectionFactory);
 
         return creator.getContext();
+    }
+
+    @Provides
+    @Singleton
+    private ProducerTemplate getProducerTemplate(CamelContext context) {
+        return context.createProducerTemplate();
     }
 }

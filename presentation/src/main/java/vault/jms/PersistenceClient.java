@@ -1,7 +1,5 @@
 package vault.jms;
 
-import org.apache.camel.CamelContext;
-import org.apache.camel.Endpoint;
 import org.apache.camel.ProducerTemplate;
 import vault.converter.Converter;
 import vault.model.Book;
@@ -17,15 +15,13 @@ public class PersistenceClient {
 
     private final Converter converter;
 
-    @Inject
-    // TODO: why expect camel context, when you can expect template
-    // TODO: add context configuration class
-    public PersistenceClient(CamelContext context, Converter converter) {
-        this.converter = converter;
+    private final EndpointSupplier endpoints;
 
-        template = context.createProducerTemplate();
-        Endpoint testEndpoint = context.getEndpoint(TEST_ENDPOINT);
-        template.setDefaultEndpoint(testEndpoint);
+    @Inject
+    public PersistenceClient(ProducerTemplate template, EndpointSupplier endpoints, Converter converter) {
+        this.converter = converter;
+        this.endpoints = endpoints;
+        this.template = template;
     }
 
     public void send() {
@@ -35,6 +31,6 @@ public class PersistenceClient {
 
     public void save(Book book) {
         String bookString = converter.asString(book);
-        template.sendBody(bookString);
+        template.sendBody(TEST_ENDPOINT, bookString);
     }
 }
