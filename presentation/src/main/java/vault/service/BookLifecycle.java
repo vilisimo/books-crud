@@ -39,12 +39,15 @@ public class BookLifecycle implements Lifecycle<Book> {
 
     @Override
     public List<Book> getAll() {
-        storage.send();
+        storage.getAll();
+
         return new ArrayList<>(datasource.values());
     }
 
     @Override
     public Book getOne(String id) {
+        storage.getOne(id);
+
         return ofNullable(datasource.get(id))
                 .orElseThrow(() -> new BookNotFoundException(Response.Status.NOT_FOUND, id));
     }
@@ -53,11 +56,15 @@ public class BookLifecycle implements Lifecycle<Book> {
     public boolean update(String id, Book book) {
         book.setId(id);
 
+        storage.update(book);
+
         return datasource.put(id, book) != null;
     }
 
     @Override
     public void remove(String id) {
+        storage.delete(id);
+
         if (datasource.remove(id) == null) {
             throw new BookNotFoundException(Response.Status.NOT_FOUND, id);
         }
