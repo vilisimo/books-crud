@@ -5,7 +5,6 @@ import com.google.inject.Injector;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Environment;
 import vault.jms.EndpointConsumer;
-import vault.jms.TestConsumer;
 import vault.modules.JmsModule;
 
 public class PersistenceApp extends Application<MainConfiguration> {
@@ -21,7 +20,5 @@ public class PersistenceApp extends Application<MainConfiguration> {
         Injector resourceInjector = Guice.createInjector(new JmsModule());
         EndpointConsumer consumer = resourceInjector.getInstance(EndpointConsumer.class);
         environment.jersey().register(consumer);
-
-        environment.jersey().register(new TestConsumer());
     }
 }

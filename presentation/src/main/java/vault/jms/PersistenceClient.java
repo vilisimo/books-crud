@@ -12,9 +12,6 @@ public class PersistenceClient {
 
     private static final Logger log = LoggerFactory.getLogger(PersistenceClient.class);
 
-    private static final String TEST_ENDPOINT = "activemq:foo.bar?exchangePattern=InOut";
-    private static final String TEST_SIMPLE_ENDPOINT = "activemq:foo.bar.simple";
-
     private final ProducerTemplate template;
 
     private final Converter converter;
