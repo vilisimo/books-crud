@@ -7,5 +7,5 @@ public interface EndpointSupplier {
     Endpoint getAll();
     Endpoint getOne();
     Endpoint update();
-    Endpoint remove();
+    Endpoint delete();
 }

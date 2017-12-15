@@ -35,11 +35,11 @@ public class ActiveMqEndpointSupplier implements EndpointSupplier {
 
     @Override
     public Endpoint update() {
-        return context.getEndpoint(ACTIVE_MQ_PREFIX + "persistence.update" + EXCHANGE_PATTERN_PREFIX + REQUEST_REPLY_PATTERN);
+        return context.getEndpoint(ACTIVE_MQ_PREFIX + "persistence.update");
     }
 
     @Override
-    public Endpoint remove() {
-        return context.getEndpoint(ACTIVE_MQ_PREFIX + "persistence.remove" + EXCHANGE_PATTERN_PREFIX + REQUEST_REPLY_PATTERN);
+    public Endpoint delete() {
+        return context.getEndpoint(ACTIVE_MQ_PREFIX + "persistence.delete");
     }
 }
