@@ -14,10 +14,9 @@ public class JmsModule extends AbstractModule {
 
     private static final String ACTIVE_MQ_ADDRESS = "tcp://localhost:61616";
 
+    /** Configures {@link vault.jms.EndpointConsumer} */
     @Override
-    protected void configure() {
-
-    }
+    protected void configure() {}
 
     @Provides
     @Singleton
