@@ -24,6 +24,7 @@ public class EndpointConsumer {
         addRoute(new GetOneRoute(endpoints), "getOne");
         addRoute(new UpdateRoute(endpoints), "update");
         addRoute(new DeleteRoute(endpoints), "delete");
+        addRoute(new HealthRoute(endpoints), "health");
 
         log.info("Created endpoint consumer");
     }

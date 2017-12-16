@@ -8,4 +8,5 @@ public interface EndpointSupplier {
     Endpoint getOne();
     Endpoint update();
     Endpoint delete();
+    Endpoint health();
 }
