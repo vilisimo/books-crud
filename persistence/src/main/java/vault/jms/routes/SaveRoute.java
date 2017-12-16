@@ -1,20 +1,17 @@
 package vault.jms.routes;
 
-import org.apache.camel.builder.RouteBuilder;
-import vault.jms.EndpointSupplier;
+import org.apache.camel.Endpoint;
 import vault.service.BookLifecycle;
 
-public class SaveRoute extends RouteBuilder {
+public class SaveRoute extends BasicRoute {
 
-    private EndpointSupplier endpoints;
-
-    public SaveRoute(EndpointSupplier endpoints) {
-        this.endpoints = endpoints;
+    public SaveRoute(Endpoint endpoint) {
+        super(endpoint);
     }
 
     @Override
     public void configure() {
-        from(endpoints.save())
+        from(endpoint)
                 .bean(BookLifecycle.class, "save");
     }
 }

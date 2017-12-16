@@ -1,20 +1,17 @@
 package vault.jms.routes;
 
-import org.apache.camel.builder.RouteBuilder;
-import vault.jms.EndpointSupplier;
+import org.apache.camel.Endpoint;
 import vault.service.BookLifecycle;
 
-public class DeleteRoute extends RouteBuilder {
+public class DeleteRoute extends BasicRoute {
 
-    private EndpointSupplier endpoints;
-
-    public DeleteRoute(EndpointSupplier endpoints) {
-        this.endpoints = endpoints;
+    public DeleteRoute(Endpoint endpoint) {
+        super(endpoint);
     }
 
     @Override
     public void configure() {
-        from(endpoints.delete())
+        from(endpoint)
                 .bean(BookLifecycle.class, "delete");
     }
 }

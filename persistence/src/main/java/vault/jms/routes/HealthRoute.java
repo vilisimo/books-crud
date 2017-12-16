@@ -1,19 +1,16 @@
 package vault.jms.routes;
 
-import org.apache.camel.builder.RouteBuilder;
-import vault.jms.EndpointSupplier;
+import org.apache.camel.Endpoint;
 
-public class HealthRoute extends RouteBuilder {
+public class HealthRoute extends BasicRoute {
 
-    private EndpointSupplier endpoints;
-
-    public HealthRoute(EndpointSupplier endpoints) {
-        this.endpoints = endpoints;
+    public HealthRoute(Endpoint endpoint) {
+        super(endpoint);
     }
 
     @Override
     public void configure() {
-        from(endpoints.health())
+        from(endpoint)
                 .bean(HealthRoute.class, "health");
     }
 

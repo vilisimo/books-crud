@@ -1,20 +1,17 @@
 package vault.jms.routes;
 
-import org.apache.camel.builder.RouteBuilder;
-import vault.jms.EndpointSupplier;
+import org.apache.camel.Endpoint;
 import vault.service.BookLifecycle;
 
-public class GetAllRoute extends RouteBuilder {
+public class GetAllRoute extends BasicRoute {
 
-    private EndpointSupplier endpoints;
-
-    public GetAllRoute(EndpointSupplier endpoints) {
-        this.endpoints = endpoints;
+    public GetAllRoute(Endpoint endpoint) {
+        super(endpoint);
     }
 
     @Override
     public void configure() {
-        from(endpoints.getAll())
+        from(endpoint)
                 .bean(BookLifecycle.class, "getAll");
     }
 }

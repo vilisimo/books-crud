@@ -19,12 +19,12 @@ public class EndpointConsumer {
     public EndpointConsumer(CamelContext context, EndpointSupplier endpoints) {
         this.context = context;
 
-        addRoute(new SaveRoute(endpoints), "save");
-        addRoute(new GetAllRoute(endpoints), "getAll");
-        addRoute(new GetOneRoute(endpoints), "getOne");
-        addRoute(new UpdateRoute(endpoints), "update");
-        addRoute(new DeleteRoute(endpoints), "delete");
-        addRoute(new HealthRoute(endpoints), "health");
+        addRoute(new SaveRoute(endpoints.save()), "save");
+        addRoute(new GetAllRoute(endpoints.getAll()), "getAll");
+        addRoute(new GetOneRoute(endpoints.getOne()), "getOne");
+        addRoute(new UpdateRoute(endpoints.update()), "update");
+        addRoute(new DeleteRoute(endpoints.delete()), "delete");
+        addRoute(new HealthRoute(endpoints.health()), "health");
 
         log.info("Created endpoint consumer");
     }
