@@ -8,8 +8,6 @@ import javax.inject.Inject;
 public class ActiveMqEndpointSupplier implements EndpointSupplier {
 
     private static final String ACTIVE_MQ_PREFIX = "activemq:";
-    private static final String EXCHANGE_PATTERN_PREFIX = "?exchangePattern=";
-    private static final String REQUEST_REPLY_PATTERN = "InOut";
 
     private CamelContext context;
 
@@ -20,17 +18,17 @@ public class ActiveMqEndpointSupplier implements EndpointSupplier {
 
     @Override
     public Endpoint save() {
-        return context.getEndpoint(ACTIVE_MQ_PREFIX + "persistence.save" + EXCHANGE_PATTERN_PREFIX + REQUEST_REPLY_PATTERN);
+        return context.getEndpoint(ACTIVE_MQ_PREFIX + "persistence.save");
     }
 
     @Override
     public Endpoint getAll() {
-        return context.getEndpoint(ACTIVE_MQ_PREFIX + "persistence.getall" + EXCHANGE_PATTERN_PREFIX + REQUEST_REPLY_PATTERN);
+        return context.getEndpoint(ACTIVE_MQ_PREFIX + "persistence.getall");
     }
 
     @Override
     public Endpoint getOne() {
-        return context.getEndpoint(ACTIVE_MQ_PREFIX + "persistence.getone" + EXCHANGE_PATTERN_PREFIX + REQUEST_REPLY_PATTERN);
+        return context.getEndpoint(ACTIVE_MQ_PREFIX + "persistence.getone");
     }
 
     @Override
