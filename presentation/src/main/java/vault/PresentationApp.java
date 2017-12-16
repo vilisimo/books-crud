@@ -5,6 +5,7 @@ import com.google.inject.Injector;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Environment;
 import vault.exception.ResourceExceptionMapper;
+import vault.health.PersistenceHealthCheck;
 import vault.modules.BookResourceModule;
 import vault.modules.PersistenceClientModule;
 import vault.resource.BookResource;
@@ -26,5 +27,9 @@ public class PresentationApp extends Application<MainConfiguration> {
         /* Exception mappers */
         final ResourceExceptionMapper bookMapper = new ResourceExceptionMapper();
         environment.jersey().register(bookMapper);
+
+        /* Health checks */
+        PersistenceHealthCheck persistence = resourceInjector.getInstance(PersistenceHealthCheck.class);
+        environment.healthChecks().register("Persistence", persistence);
     }
 }
