@@ -29,31 +29,31 @@ public class PersistenceClient {
         String bookString = converter.asString(book);
         String bookId = (String) template.requestBody(endpoints.save(), bookString);
 
-        log.info("Sent a book to 'save' endpoint. Reply: {}", bookId);
+        log.debug("Sent a book to 'save' endpoint. Reply: {}", bookId);
     }
 
     public void getAll() {
         String books = (String) template.requestBody(endpoints.getAll(), "placeholder");
 
-        log.info("Requested books from 'getAll' endpoint. Reply: {}", books);
+        log.debug("Requested books from 'getAll' endpoint. Reply: {}", books);
     }
 
     public void getOne(String bookId) {
         String book = (String) template.requestBody(endpoints.getOne(), bookId);
 
-        log.info("Requested a book form 'getOne' endpoint. Reply: {}", book);
+        log.debug("Requested a book form 'getOne' endpoint. Reply: {}", book);
     }
 
     public void update(Book book) {
         String bookString = converter.asString(book);
         template.sendBody(endpoints.update(), bookString);
 
-        log.info("Issued an update of a book request to 'update' endpoint");
+        log.debug("Issued an update of a book request to 'update' endpoint");
     }
 
     public void delete(String id) {
         template.sendBody(endpoints.delete(), id);
 
-        log.info("Issued a delete request to 'delete' endpoint");
+        log.debug("Issued a delete request to 'delete' endpoint");
     }
 }

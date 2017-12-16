@@ -25,7 +25,7 @@ public class EndpointConsumer {
         addRoute(new UpdateRoute(endpoints), "update");
         addRoute(new DeleteRoute(endpoints), "delete");
 
-        log.info("Created endpoint consumer"); // todo: configure logging levels and set to trace
+        log.info("Created endpoint consumer");
     }
 
     private void addRoute(RouteBuilder route, String routeName) {
