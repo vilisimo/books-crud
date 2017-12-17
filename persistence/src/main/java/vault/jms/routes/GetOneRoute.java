@@ -10,7 +10,7 @@ public class GetOneRoute extends BasicRoute {
     }
 
     @Override
-    public void configure() throws Exception {
+    public void configure() {
         from(endpoint)
                 .bean(BookLifecycle.class, "getOne");
     }
