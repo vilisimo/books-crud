@@ -29,6 +29,8 @@ repositories {
 
 dependencies {
     compile group: 'io.dropwizard', name: 'dropwizard-core', version: '1.2.2'
+    compile group: 'io.dropwizard', name: 'dropwizard-jdbi', version: '1.2.2'
+    compile group: 'org.hsqldb', name: 'hsqldb', version: '2.4.0'
     compile group: 'com.google.inject', name: 'guice', version: '4.1.0'
     compile group: 'cglib', name: 'cglib-nodep', version: '3.2.5'
     compile group: 'org.apache.activemq', name: 'activemq-camel', version: '5.15.2'

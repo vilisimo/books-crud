@@ -8,3 +8,14 @@ server:
 
 logging:
   level: debug
+
+
+database:
+  # Connection info
+  driverClass: org.hsqldb.jdbc.JDBCDriver
+  url: jdbc:hsqldb:file:~/temp/tasksdb;hsqldb.write_delay=false
+  user: sa
+  password:
+  # Health checks
+  validationQuery: "select 1 from INFORMATION_SCHEMA.SYSTEM_USERS"
+  validationQueryTimeout: 3s
