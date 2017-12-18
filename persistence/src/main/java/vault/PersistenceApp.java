@@ -6,6 +6,7 @@ import io.dropwizard.Application;
 import io.dropwizard.jdbi.DBIFactory;
 import io.dropwizard.setup.Environment;
 import org.skife.jdbi.v2.DBI;
+import vault.jdbi.BookDAO;
 import vault.jms.EndpointConsumer;
 import vault.modules.JmsModule;
 
@@ -26,5 +27,8 @@ public class PersistenceApp extends Application<MainConfiguration> {
         /* Datasource */
         final DBIFactory factory = new DBIFactory();
         final DBI jdbi = factory.build(environment, configuration.getDataSourceFactory(), "hsqldb");
+
+        final BookDAO dao = jdbi.onDemand(BookDAO.class);
+        dao.createTable(); // TODO: remove POC functionality later
     }
 }
