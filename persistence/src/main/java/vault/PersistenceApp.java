@@ -9,11 +9,13 @@ import io.dropwizard.migrations.MigrationsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import org.skife.jdbi.v2.DBI;
-import vault.jdbi.BookDAO;
 import vault.jms.EndpointConsumer;
 import vault.modules.JmsModule;
 
 public class PersistenceApp extends Application<MainConfiguration> {
+
+    private static final String MIGRATIONS_FILE_NAME = "migrations.yaml";
+    private static final String HSQLDB = "hsqldb";
 
     public static void main(String[] args) throws Exception {
         new PersistenceApp().run(args);
@@ -29,14 +31,13 @@ public class PersistenceApp extends Application<MainConfiguration> {
 
             @Override
             public String getMigrationsFileName() {
-                return "migrations.yaml";
+                return MIGRATIONS_FILE_NAME;
             }
         });
     }
 
     @Override
     public void run(MainConfiguration configuration, Environment environment) {
-
         /* Resources */
         Injector resourceInjector = Guice.createInjector(new JmsModule());
         EndpointConsumer consumer = resourceInjector.getInstance(EndpointConsumer.class);
@@ -44,9 +45,9 @@ public class PersistenceApp extends Application<MainConfiguration> {
 
         /* Datasource */
         final DBIFactory factory = new DBIFactory();
-        final DBI jdbi = factory.build(environment, configuration.getDataSourceFactory(), "hsqldb");
+        final DBI jdbi = factory.build(environment, configuration.getDataSourceFactory(), HSQLDB);
 
-        final BookDAO dao = jdbi.onDemand(BookDAO.class);
-        // dao.createTable(); // TODO: remove POC functionality later
+        // TODO: introduce proper DAO
+        // final BookDAO dao = jdbi.onDemand(BookDAO.class);
     }
 }

@@ -7,13 +7,13 @@ server:
     port: 9001
 
 logging:
-  level: debug
+  level: info
 
 
 database:
   # Connection info
   driverClass: org.hsqldb.jdbc.JDBCDriver
-  url: jdbc:hsqldb:file:~/temp/tasksdb;hsqldb.write_delay=false
+  url: jdbc:hsqldb:file:~/temp/vaultdb;hsqldb.write_delay=false
   user: sa
   password:
   # Health checks

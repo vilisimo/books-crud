@@ -8,22 +8,32 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                  type: string
-                  autoIncrement: true
+                  type: varchar(36)
                   constraints:
+                    nullable: false
                     primaryKey: true
+              - column:
+                  name: title
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: author
+                  type: varchar(100)
+                  constraints:
                     nullable: false
               - column:
                   name: description
-                  type: varchar(140)
+                  type: varchar(500)
                   constraints:
                     nullable: false
               - column:
-                  name: created
-                  type: timestamp
-                  defaultValueComputed: current_timestamp
+                  name: amazon
+                  type: varchar(100)
                   constraints:
-                    nullable: false
+                    nullable: true
               - column:
-                  name: deadline
-                  type: timestamp
+                  name: goodreads
+                  type: varchar(100)
+                  constraints:
+                    nullable: true
