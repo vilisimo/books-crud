@@ -1,17 +1,18 @@
 package vault.jms.routes;
 
 import org.apache.camel.Endpoint;
+import vault.service.BookLifecycle;
 
 public class HealthRoute extends BasicRoute {
 
-    public HealthRoute(Endpoint endpoint) {
-        super(endpoint);
+    public HealthRoute(Endpoint endpoint, BookLifecycle lifecycle) {
+        super(endpoint, lifecycle);
     }
 
     @Override
     public void configure() {
         from(endpoint)
-                .bean(HealthRoute.class, "health");
+                .bean(this, "health");
     }
 
     public static String health(String inquiry) {

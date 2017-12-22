@@ -9,9 +9,8 @@ import io.dropwizard.migrations.MigrationsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import org.skife.jdbi.v2.DBI;
-import vault.jdbi.BookDAO;
 import vault.jms.EndpointConsumer;
-import vault.model.Book;
+import vault.modules.BookLifecycleModule;
 import vault.modules.JmsModule;
 
 public class PersistenceApp extends Application<MainConfiguration> {
@@ -40,17 +39,13 @@ public class PersistenceApp extends Application<MainConfiguration> {
 
     @Override
     public void run(MainConfiguration configuration, Environment environment) {
-        /* Resources */
-        Injector resourceInjector = Guice.createInjector(new JmsModule());
-        EndpointConsumer consumer = resourceInjector.getInstance(EndpointConsumer.class);
-        environment.jersey().register(consumer);
-
         /* Datasource */
         final DBIFactory factory = new DBIFactory();
         final DBI jdbi = factory.build(environment, configuration.getDataSourceFactory(), HSQLDB);
 
-        // TODO: introduce proper DAO
-        final BookDAO dao = jdbi.onDemand(BookDAO.class);
-        dao.save("test", "test", "test", "test", "https://www.amazon.com/", "https://www.goodreads.com/");
+        /* Resources */
+        Injector resourceInjector = Guice.createInjector(new JmsModule(), new BookLifecycleModule(jdbi));
+        EndpointConsumer consumer = resourceInjector.getInstance(EndpointConsumer.class);
+        environment.jersey().register(consumer);
     }
 }

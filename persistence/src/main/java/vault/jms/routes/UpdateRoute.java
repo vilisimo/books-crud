@@ -5,13 +5,13 @@ import vault.service.BookLifecycle;
 
 public class UpdateRoute extends BasicRoute {
 
-    public UpdateRoute(Endpoint endpoint) {
-        super(endpoint);
+    public UpdateRoute(Endpoint endpoint, BookLifecycle lifecycle) {
+        super(endpoint, lifecycle);
     }
 
     @Override
     public void configure() {
         from(endpoint)
-                .bean(BookLifecycle.class, "update");
+                .bean(lifecycle, "update");
     }
 }

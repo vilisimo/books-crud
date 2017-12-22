@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import vault.jms.exceptions.RouteAdditionException;
 import vault.jms.routes.*;
+import vault.service.BookLifecycle;
 
 import javax.inject.Inject;
 
@@ -16,15 +17,15 @@ public class EndpointConsumer {
     private final CamelContext context;
 
     @Inject
-    public EndpointConsumer(CamelContext context, EndpointSupplier endpoints) {
+    public EndpointConsumer(CamelContext context, EndpointSupplier endpoints, BookLifecycle lifecycle) {
         this.context = context;
 
-        addRoute(new SaveRoute(endpoints.save()), "save");
-        addRoute(new GetAllRoute(endpoints.getAll()), "getAll");
-        addRoute(new GetOneRoute(endpoints.getOne()), "getOne");
-        addRoute(new UpdateRoute(endpoints.update()), "update");
-        addRoute(new DeleteRoute(endpoints.delete()), "delete");
-        addRoute(new HealthRoute(endpoints.health()), "health");
+        addRoute(new SaveRoute(endpoints.save(), lifecycle), "save");
+        addRoute(new GetAllRoute(endpoints.getAll(), lifecycle), "getAll");
+        addRoute(new GetOneRoute(endpoints.getOne(), lifecycle), "getOne");
+        addRoute(new UpdateRoute(endpoints.update(), lifecycle), "update");
+        addRoute(new DeleteRoute(endpoints.delete(), lifecycle), "delete");
+        addRoute(new HealthRoute(endpoints.health(), lifecycle), "health");
 
         log.info("Created endpoint consumer");
     }

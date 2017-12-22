@@ -5,13 +5,13 @@ import vault.service.BookLifecycle;
 
 public class GetOneRoute extends BasicRoute {
 
-    public GetOneRoute(Endpoint endpoint) {
-        super(endpoint);
+    public GetOneRoute(Endpoint endpoint, BookLifecycle lifecycle) {
+        super(endpoint, lifecycle);
     }
 
     @Override
     public void configure() {
         from(endpoint)
-                .bean(BookLifecycle.class, "getOne");
+                .bean(lifecycle, "getOne");
     }
 }
