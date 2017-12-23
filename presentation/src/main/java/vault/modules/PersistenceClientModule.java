@@ -6,8 +6,8 @@ import com.google.inject.Singleton;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.camel.CamelContext;
 import org.apache.camel.ProducerTemplate;
-import vault.converter.Converter;
-import vault.converter.ObjectConverter;
+import vault.service.Converter;
+import vault.service.ObjectConverter;
 import vault.jms.*;
 
 import javax.jms.ConnectionFactory;

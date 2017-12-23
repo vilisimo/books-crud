@@ -1,4 +1,4 @@
-package vault.converter;
+package vault.service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 

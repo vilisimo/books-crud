@@ -1,9 +1,10 @@
-package vault.converter
+package vault.service
 
 import com.fasterxml.jackson.core.type.TypeReference
 import groovy.transform.EqualsAndHashCode
 import spock.lang.Shared
 import spock.lang.Specification
+import vault.service.ObjectConverter
 
 class ObjectConverterTest extends Specification {
 
