@@ -4,6 +4,8 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import org.skife.jdbi.v2.DBI;
 import vault.jdbi.BookDAO;
+import vault.service.Converter;
+import vault.service.ObjectConverter;
 
 public class BookLifecycleModule extends AbstractModule {
 
@@ -15,7 +17,7 @@ public class BookLifecycleModule extends AbstractModule {
 
     @Override
     protected void configure() {
-
+        bind(Converter.class).to(ObjectConverter.class);
     }
 
     @Provides

@@ -15,9 +15,12 @@ public class BookLifecycle {
 
     private final BookDAO database;
 
+    private final Converter converter;
+
     @Inject
-    public BookLifecycle(BookDAO database) {
+    public BookLifecycle(BookDAO database, Converter converter) {
         this.database = database;
+        this.converter = converter;
     }
 
     public String save(String book) {
