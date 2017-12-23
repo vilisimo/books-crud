@@ -3,8 +3,10 @@ package vault.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import vault.jdbi.BookDAO;
+import vault.model.Book;
 
 import javax.inject.Inject;
+import java.util.List;
 import java.util.UUID;
 
 public class BookLifecycle {
@@ -21,28 +23,36 @@ public class BookLifecycle {
     public String save(String book) {
         database.save(UUID.randomUUID().toString(), "test", "test", "test", "https://www.amazon.com/", "https://www.goodreads.com/");
 
-        log.debug("Received a book: {}", book);
+        log.info("Saved a book: {}", book);
 
         return "placeholder id";
     }
 
     public String getAll() {
-        log.debug("Received a request to get all books");
+        List<Book> books = database.getAll();
+
+        log.info("Retrieved all (n={}) books", books.size());
 
         return "Placeholder books";
     }
 
     public String getOne(String bookId) {
-        log.debug("Received a request to get one book with ID={}", bookId);
+        Book book = database.findOne(bookId);
+
+        log.info("Retrieved a book [{}]", book);
 
         return "Placeholder book";
     }
 
     public void update(String book) {
-        log.debug("Received a request to update a book: {}", book);
+        database.update("3085d7d9-88a8-4ce4-a536-2e9efb0d2788", "secondTest", "secondTest", "secondTest", "secondTest", "secondTest");
+
+        log.info("Updated a book: {}", book);
     }
 
     public void delete(String id) {
-        log.debug("Received a request to delete a book: {}", id);
+        database.delete(id);
+
+        log.info("Deleted a book: {}", id);
     }
 }
