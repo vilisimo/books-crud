@@ -3,8 +3,8 @@ package vault.jms;
 import org.apache.camel.ProducerTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import vault.service.Converter;
 import vault.model.Book;
+import vault.service.Converter;
 
 import javax.inject.Inject;
 
