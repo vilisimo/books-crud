@@ -27,8 +27,12 @@ public class Book {
 
     private Book() {}
 
-    public Book(String title, String author, String description, String reason, String amazon, String goodreads) {
-        this.id = UUID.randomUUID().toString();
+    public Book(String title, String author, String description, String amazon, String goodreads) {
+        this(UUID.randomUUID().toString(), title, author, description, amazon, goodreads);
+    }
+
+    public Book(String id, String title, String author, String description, String amazon, String goodreads) {
+        this.id = id;
         this.amazon = amazon;
         this.goodreads = goodreads;
         this.title = title;
