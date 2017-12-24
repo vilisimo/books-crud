@@ -1,5 +1,6 @@
 package vault.service;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import vault.jdbi.BookDAO;
@@ -7,7 +8,6 @@ import vault.model.Book;
 
 import javax.inject.Inject;
 import java.util.List;
-import java.util.UUID;
 
 public class BookLifecycle {
 
@@ -23,12 +23,14 @@ public class BookLifecycle {
         this.converter = converter;
     }
 
-    public String save(String book) {
-        database.save(UUID.randomUUID().toString(), "test", "test", "test", "https://www.amazon.com/", "https://www.goodreads.com/");
+    public String save(String bookString) {
+        Book book = converter.asObject(bookString, new TypeReference<Book>() {});
+
+        database.save(book.id(), book.title(), book.author(), book.description(), book.amazon(), book.goodreads());
 
         log.info("Saved a book: {}", book);
 
-        return "placeholder id";
+        return book.id();
     }
 
     public String getAll() {
