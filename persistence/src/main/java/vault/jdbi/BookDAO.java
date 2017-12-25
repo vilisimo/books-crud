@@ -36,5 +36,5 @@ public interface BookDAO {
                 @Bind("goodreads") String goodreads);
 
     @SqlUpdate("DELETE FROM book WHERE id = :id")
-    void delete(@Bind("id") String id);
+    int delete(@Bind("id") String id);
 }

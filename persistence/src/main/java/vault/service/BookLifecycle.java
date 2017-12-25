@@ -8,6 +8,7 @@ import vault.model.Book;
 
 import javax.inject.Inject;
 import java.util.List;
+import java.util.UUID;
 
 public class BookLifecycle {
 
@@ -25,39 +26,61 @@ public class BookLifecycle {
 
     public String save(String bookString) {
         Book book = converter.asObject(bookString, new TypeReference<Book>() {});
+        String bookId = UUID.randomUUID().toString();
+        database.save(bookId, book.title(), book.author(), book.description(), book.amazon(), book.goodreads());
 
-        database.save(book.id(), book.title(), book.author(), book.description(), book.amazon(), book.goodreads());
+        log.debug("Saved a book: {}", book);
 
-        log.info("Saved a book: {}", book);
-
-        return book.id();
+        return bookId;
     }
 
     public String getAll() {
         List<Book> books = database.getAll();
+        String bookStrings = converter.asString(books);
 
-        log.info("Retrieved all (n={}) books", books.size());
+        log.debug("Retrieved all (n={}) books", books.size());
 
-        return "Placeholder books";
+        return bookStrings;
     }
 
     public String getOne(String bookId) {
         Book book = database.findOne(bookId);
 
-        log.info("Retrieved a book [{}]", book);
+        log.debug("Retrieved a book [{}]", book);
 
-        return "Placeholder book";
+        if (book == null) {
+            return "null";
+        } else {
+            return converter.asString(book);
+        }
     }
 
-    public void update(String book) {
-        database.update("3085d7d9-88a8-4ce4-a536-2e9efb0d2788", "secondTest", "secondTest", "secondTest", "secondTest", "secondTest");
+    public Boolean update(String bookString) {
+        Book book = converter.asObject(bookString, new TypeReference<Book>() {});
+        boolean updated = updateOrInsert(book);
 
-        log.info("Updated a book: {}", book);
+        log.debug("Updated a book: {}", book);
+
+        return updated;
     }
 
-    public void delete(String id) {
-        database.delete(id);
+    private boolean updateOrInsert(Book book) {
+        Book instance = database.findOne(book.id());
 
-        log.info("Deleted a book: {}", id);
+        if (instance != null) {
+            database.update(book.id(), book.title(), book.author(), book.description(), book.amazon(), book.goodreads());
+            return true;
+        } else {
+            database.save(book.id(), book.title(), book.author(), book.description(), book.amazon(), book.goodreads());
+            return false;
+        }
+    }
+
+    public boolean delete(String id) {
+        int deleted = database.delete(id);
+
+        log.debug("Deleted a book: {}", id);
+
+        return deleted == 1;
     }
 }

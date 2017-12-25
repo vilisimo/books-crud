@@ -23,7 +23,10 @@ class BookLifecycleTest extends Specification {
         when: "a book is saved"
             String id = lifecycle.save(book)
 
-        then: "an id of saved book is returned"
+        then: "persistence client returns a book id"
+            storage.save(book) >> UUID.randomUUID().toString()
+
+        and: "an id of saved book is returned"
             id != null
 
         and: "id is a valid UUID"
@@ -42,7 +45,10 @@ class BookLifecycleTest extends Specification {
         when: "the book is saved"
             lifecycle.save(book)
 
-        then: "the book is assigned an id"
+        then: "persistence client returns an id"
+            storage.save(book) >> UUID.randomUUID().toString()
+
+        and: "the book is assigned an id"
             book.id() != null
     }
 
@@ -61,25 +67,25 @@ class BookLifecycleTest extends Specification {
                     "https://www.amazon.co.uk/Light-Fantastic-Discworld-Novel-Novels/dp/055216660X/",
                     "https://www.goodreads.com/book/show/34506.The_Light_Fantastic")
 
-        datasource.put("first", tcom)
-        datasource.put("second", tlf)
-
         when: "the lifecycle is queried for all books"
             def books = lifecycle.getAll()
 
-        then: "all books are returned"
+        then: "persistence client returns a list of books"
+            storage.getAll() >> [tcom, tlf]
+
+        and: "all books are returned"
             !books.isEmpty()
             books.size() > 1
     }
 
     def "when no books are saved, empty collection is returned"() {
-        given: "an empty datasource"
-            assert datasource.isEmpty()
-
         when: "all books are queried"
             def books = lifecycle.getAll()
 
-        then: "an empty collection is returned"
+        then: "persistence client returns an empty list of books"
+            storage.getAll() >> []
+
+        and: "an empty collection is returned"
             books.isEmpty()
     }
 
@@ -91,12 +97,14 @@ class BookLifecycleTest extends Specification {
                     "A book about a wizard",
                     "https://www.amazon.co.uk/Colour-Magic-Discworld-Novel-Novels/dp/0552166596",
                     "https://www.goodreads.com/book/show/34497.The_Color_of_Magic")
-            datasource.put("book", book)
 
         when: "the lifecycle is queried by the book's id"
             def retrievedBook = lifecycle.getOne("book")
 
-        then: "the book is returned"
+        then: "persistence client returns a book"
+            storage.getOne("book") >> book
+
+        and: "the book is returned"
             book == retrievedBook
     }
 
@@ -111,7 +119,7 @@ class BookLifecycleTest extends Specification {
             thrown(BookNotFoundException)
     }
 
-    def "saved book can be updated"() {
+    def "successful update is reported by the lifecycle"() {
         given: "a book that exists in a datasource"
             def book = new Book(
                     "Terry Pratchett",
@@ -119,7 +127,6 @@ class BookLifecycleTest extends Specification {
                     "A book about a wizard",
                     "https://www.amazon.co.uk/Colour-Magic-Discworld-Novel-Novels/dp/0552166596",
                     "https://www.goodreads.com/book/show/34497.The_Color_of_Magic")
-            datasource.put("book", book)
 
         when: "user updates the book"
             def tlf = new Book(
@@ -130,19 +137,14 @@ class BookLifecycleTest extends Specification {
                     "https://www.goodreads.com/book/show/34506.The_Light_Fantastic")
             def updated = lifecycle.update("book", tlf)
 
-        then: "lifecycle reports that the book was updated"
-            updated
+        then: "persistence layer reports that a book has been updated"
+            storage.update(_ as Book) >> Boolean.TRUE
 
-        and: "book's details are updated"
-            def updatedBook = datasource.get("book")
-            datasource.size() == 1
-            updatedBook.title() == tlf.title()
+        and: "lifecycle reports that the book was updated"
+            updated
     }
 
-    def "updating non-existent book creates it"() {
-        given: "an empty datasource"
-            assert datasource.isEmpty()
-
+    def "updating non-existent book reports a books creation"() {
         when: "non-existent book is updated"
             def book = new Book(
                     "Terry Pratchett",
@@ -152,10 +154,10 @@ class BookLifecycleTest extends Specification {
                     "https://www.goodreads.com/book/show/34497.The_Color_of_Magic")
             def updated = lifecycle.update("book", book)
 
-        then: "a book is saved"
-            datasource.size() == 1
+        then: "persistence client updates a book"
+            storage.update(_ as Book) >> Boolean.FALSE
 
-        and: "lifecycle reports that the book was not updated"
+        and: "lifecycle reports that the book was created"
             !updated
     }
 
@@ -177,13 +179,13 @@ class BookLifecycleTest extends Specification {
     }
 
     def "non-existent book cannot be deleted"() {
-        given: "an empty datasource"
-            assert datasource.isEmpty()
-
         when: "a non-existent book is deleted"
             lifecycle.remove("non-existent id")
 
-        then:
+        then: "persistence client reports that the book has not been deleted"
+            storage.delete("non-existent id") >> Boolean.FALSE
+
+        and:
             thrown(BookNotFoundException)
     }
 }

@@ -6,10 +6,8 @@ import vault.model.Book;
 
 import javax.inject.Inject;
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import static java.util.Optional.ofNullable;
 
@@ -28,27 +26,22 @@ public class BookLifecycle implements Lifecycle<Book> {
 
     @Override
     public String save(Book book) {
-        String uuid = UUID.randomUUID().toString();
-        book.setId(uuid);
+        String id = storage.save(book);
+        book.setId(id);
 
-        storage.save(book);
-        datasource.put(uuid, book);
-
-        return uuid;
+        return id;
     }
 
     @Override
     public List<Book> getAll() {
-        storage.getAll();
-
-        return new ArrayList<>(datasource.values());
+        return storage.getAll();
     }
 
     @Override
     public Book getOne(String id) {
-        storage.getOne(id);
+        Book book = storage.getOne(id);
 
-        return ofNullable(datasource.get(id))
+        return ofNullable(book)
                 .orElseThrow(() -> new BookNotFoundException(Response.Status.NOT_FOUND, id));
     }
 
@@ -56,16 +49,14 @@ public class BookLifecycle implements Lifecycle<Book> {
     public boolean update(String id, Book book) {
         book.setId(id);
 
-        storage.update(book);
-
-        return datasource.put(id, book) != null;
+        return storage.update(book);
     }
 
     @Override
     public void remove(String id) {
-        storage.delete(id);
+        Boolean deleted = storage.delete(id);
 
-        if (datasource.remove(id) == null) {
+        if (!deleted) {
             throw new BookNotFoundException(Response.Status.NOT_FOUND, id);
         }
     }
