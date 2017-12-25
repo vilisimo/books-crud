@@ -7,20 +7,15 @@ import vault.model.Book;
 import javax.inject.Inject;
 import javax.ws.rs.core.Response;
 import java.util.List;
-import java.util.Map;
 
 import static java.util.Optional.ofNullable;
 
 public class BookLifecycle implements Lifecycle<Book> {
-
-    // TODO: most likely UUID will be returned by persistence layer
-
-    private final Map<String, Book> datasource;
+    
     private final PersistenceClient storage;
 
     @Inject
-    public BookLifecycle(Map<String, Book> datasource, PersistenceClient storage) {
-        this.datasource = datasource;
+    public BookLifecycle(PersistenceClient storage) {
         this.storage = storage;
     }
 

@@ -7,9 +7,8 @@ import vault.model.Book
 
 class BookLifecycleTest extends Specification {
 
-    def datasource = new HashMap<String, Book>()
     def storage = Mock(PersistenceClient)
-    def lifecycle = new BookLifecycle(datasource, storage)
+    def lifecycle = new BookLifecycle(storage)
 
     def "book is saved"() {
         given: "a book"
@@ -109,25 +108,17 @@ class BookLifecycleTest extends Specification {
     }
 
     def "non-existent book cannot be retrieved"() {
-        given: "an empty datasource"
-            assert datasource.isEmpty()
-
         when: "a book is requested"
             lifecycle.getOne("non-existent id")
 
-        then: "an exception is thrown to indicate its absence"
+        then: "persistence client reports that book does not exist"
+            storage.getOne("non-existent id") >> null
+
+        and: "an exception is thrown to indicate its absence"
             thrown(BookNotFoundException)
     }
 
     def "successful update is reported by the lifecycle"() {
-        given: "a book that exists in a datasource"
-            def book = new Book(
-                    "Terry Pratchett",
-                    "The Colour of Magic",
-                    "A book about a wizard",
-                    "https://www.amazon.co.uk/Colour-Magic-Discworld-Novel-Novels/dp/0552166596",
-                    "https://www.goodreads.com/book/show/34497.The_Color_of_Magic")
-
         when: "user updates the book"
             def tlf = new Book(
                     "Terry Pratchett",
@@ -161,21 +152,12 @@ class BookLifecycleTest extends Specification {
             !updated
     }
 
-    def "delete removes book from the datasource"() {
-        given: "a book exists in data source"
-            def book = new Book(
-                    "Terry Pratchett",
-                    "The Colour of Magic",
-                    "A book about a wizard",
-                    "https://www.amazon.co.uk/Colour-Magic-Discworld-Novel-Novels/dp/0552166596",
-                    "https://www.goodreads.com/book/show/34497.The_Color_of_Magic")
-            datasource.put("book", book)
+    def "delete removes a book"() {
+        when: "a book is deleted"
+            lifecycle.remove("book")
 
-        when: "the book is deleted"
-            datasource.remove("book")
-
-        then: "datasource does not contain the book anymore"
-            datasource.isEmpty()
+        then: "persistence layer is asked to delete a book"
+            1 * storage.delete("book") >> true
     }
 
     def "non-existent book cannot be deleted"() {
