@@ -1,5 +1,5 @@
 # vault
-Proof of concept project to gain familiarity with:
+Proof of concept Dropwizard CRUD project to gain familiarity with:
 * Dropwizard
 * Camel
 * Guice
@@ -8,3 +8,10 @@ Proof of concept project to gain familiarity with:
 * Groovy
 * Spock
 * Docker
+
+# Short Description
+There is no complex architecture or mind-bending structure. The app simply receives a request on `/books` endpoint (presentation layer), does some rudimentary checks to ensure a book is valid, and passes it through to the persistence layer through JMS (this project uses ActiveMQ in combination with Apache camel). There, it is saved in the database (hsqldb), using JDBI. Standard CRUD operations are all supported.
+
+# Is that it?
+Yes. No additional logic is in place, as the aim of the project was to get the exposure to the technologies mentioned above. The app is embarrassingly simple, but it achieves the aim.
+
