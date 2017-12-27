@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.URL;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class Book {
@@ -77,5 +78,24 @@ public class Book {
     @Override
     public String toString() {
         return "Book[getId=" + getId() + "]";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Book book = (Book) o;
+        return Objects.equals(id, book.id) &&
+                Objects.equals(title, book.title) &&
+                Objects.equals(author, book.author) &&
+                Objects.equals(description, book.description) &&
+                Objects.equals(amazon, book.amazon) &&
+                Objects.equals(goodreads, book.goodreads);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, title, author, description, amazon, goodreads);
     }
 }
