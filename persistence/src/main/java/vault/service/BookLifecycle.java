@@ -27,7 +27,9 @@ public class BookLifecycle {
     public String save(String bookString) {
         Book book = converter.asObject(bookString, new TypeReference<Book>() {});
         String bookId = UUID.randomUUID().toString();
-        database.save(bookId, book.title(), book.author(), book.description(), book.amazon(), book.goodreads());
+        book.setId(bookId);
+
+        database.save(book);
 
         log.debug("Saved a book: {}", book);
 
@@ -65,13 +67,13 @@ public class BookLifecycle {
     }
 
     private boolean updateOrInsert(Book book) {
-        Book instance = database.findOne(book.id());
+        Book instance = database.findOne(book.getId());
 
         if (instance != null) {
-            database.update(book.id(), book.title(), book.author(), book.description(), book.amazon(), book.goodreads());
+            database.update(book);
             return true;
         } else {
-            database.save(book.id(), book.title(), book.author(), book.description(), book.amazon(), book.goodreads());
+            database.save(book);
             return false;
         }
     }

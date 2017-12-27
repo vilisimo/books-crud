@@ -1,6 +1,7 @@
 package vault.jdbi;
 
 import org.skife.jdbi.v2.sqlobject.Bind;
+import org.skife.jdbi.v2.sqlobject.BindBean;
 import org.skife.jdbi.v2.sqlobject.SqlQuery;
 import org.skife.jdbi.v2.sqlobject.SqlUpdate;
 import org.skife.jdbi.v2.sqlobject.customizers.RegisterMapper;
@@ -10,15 +11,10 @@ import java.util.List;
 
 @RegisterMapper(BookMapper.class)
 public interface BookDAO {
-    // TODO: try @BindBean
+
     @SqlUpdate("INSERT INTO book(id, title, author, description, amazon, goodreads) " +
                "VALUES (:id, :title, :author, :description, :amazon, :goodreads)")
-    void save(@Bind("id") String id,
-              @Bind("title") String title,
-              @Bind("author") String author,
-              @Bind("description") String description,
-              @Bind("amazon") String amazon,
-              @Bind("goodreads") String goodreads);
+    void save(@BindBean Book book);
 
     @SqlQuery("SELECT * FROM book")
     List<Book> getAll();
@@ -28,12 +24,7 @@ public interface BookDAO {
 
     @SqlUpdate("UPDATE book SET title = :title, author = :author, description = :description, amazon = :amazon, goodreads = :goodreads " +
                "WHERE id = :id")
-    void update(@Bind("id") String id,
-                @Bind("title") String title,
-                @Bind("author") String author,
-                @Bind("description") String description,
-                @Bind("amazon") String amazon,
-                @Bind("goodreads") String goodreads);
+    void update(@BindBean Book book);
 
     @SqlUpdate("DELETE FROM book WHERE id = :id")
     int delete(@Bind("id") String id);

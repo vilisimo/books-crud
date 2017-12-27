@@ -21,7 +21,7 @@ class BookLifecycleTest extends Specification {
             converter.asObject(_ as String, _ as TypeReference) >> book
 
         and: "database is passed a book instance"
-            1 * database.save(_ as String, book.title(), book.author(), book.description(), book.amazon(), book.goodreads())
+            1 * database.save(_ as Book)
     }
 
     def "Get all returns a list of books"() {
@@ -79,7 +79,7 @@ class BookLifecycleTest extends Specification {
             database.findOne(_ as String) >> book
 
         and: "database updates a book"
-            1 * database.update(_ as String, _ as String, _ as String, _ as String, _ as String, _ as String)
+            1 * database.update(_ as Book)
     }
 
     def "Creates a book in a database when it does not exist"() {
@@ -95,7 +95,7 @@ class BookLifecycleTest extends Specification {
             database.findOne(_ as String) >> null
 
         and: "database updates a book"
-            1 * database.save(_ as String, _ as String, _ as String, _ as String, _ as String, _ as String)
+            1 * database.save(_ as Book)
     }
 
     def "Delete removes a book from a database"() {

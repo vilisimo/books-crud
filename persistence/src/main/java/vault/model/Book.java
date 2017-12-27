@@ -41,7 +41,7 @@ public class Book {
     }
 
     @JsonProperty
-    public String id() {
+    public String getId() {
         return id;
     }
 
@@ -50,33 +50,32 @@ public class Book {
     }
 
     @JsonProperty
-    public String title() {
+    public String getTitle() {
         return title;
     }
 
     @JsonProperty
-    public String author() {
+    public String getAuthor() {
         return author;
     }
 
     @JsonProperty
-    public String amazon() {
+    public String getAmazon() {
         return amazon;
     }
 
     @JsonProperty
-    public String goodreads() {
+    public String getGoodreads() {
         return goodreads;
     }
 
     @JsonProperty
-    public String description() {
+    public String getDescription() {
         return description;
     }
 
-
     @Override
     public String toString() {
-        return "Book[id=" + id() + "]";
+        return "Book[getId=" + getId() + "]";
     }
 }
