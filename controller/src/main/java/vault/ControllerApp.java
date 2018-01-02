@@ -10,10 +10,10 @@ import vault.modules.BookResourceModule;
 import vault.modules.PersistenceClientModule;
 import vault.resource.BookResource;
 
-public class PresentationApp extends Application<MainConfiguration> {
+public class ControllerApp extends Application<MainConfiguration> {
 
     public static void main(String[] args) throws Exception {
-        new PresentationApp().run(args);
+        new ControllerApp().run(args);
     }
 
     @Override

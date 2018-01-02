@@ -6,10 +6,10 @@ plugins {
     id "java"
 }
 
-group 'presentation.vault'
+group 'controller.vault'
 version '1.0-SNAPSHOT'
 
-mainClassName = 'vault.PresentationApp'
+mainClassName = 'vault.ControllerApp'
 
 sourceCompatibility = 1.8
 
@@ -20,7 +20,7 @@ run {
 shadowJar {
     mergeServiceFiles()
     exclude 'META-INF/*.DSA', 'META-INF/*.RSA', 'META-INF/*.SF'
-    archiveName 'presentation-vault.jar'
+    archiveName 'controller-vault.jar'
 }
 
 repositories {
