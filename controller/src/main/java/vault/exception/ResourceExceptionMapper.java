@@ -12,7 +12,7 @@ public class ResourceExceptionMapper implements ExceptionMapper<ResourceExceptio
     public Response toResponse(ResourceException exception) {
         ExceptionContext exceptionContext = new ExceptionContext(exception);
 
-        return Response.status(Response.Status.NOT_FOUND)
+        return Response.status(exceptionContext.getCode())
                 .entity(exceptionContext)
                 .type(MediaType.APPLICATION_JSON)
                 .build();
