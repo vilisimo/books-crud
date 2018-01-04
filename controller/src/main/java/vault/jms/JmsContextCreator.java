@@ -3,7 +3,7 @@ package vault.jms;
 import org.apache.camel.CamelContext;
 import org.apache.camel.component.jms.JmsComponent;
 import org.apache.camel.impl.DefaultCamelContext;
-import vault.jms.exceptions.ContextStartupException;
+import vault.exception.ContextStartupException;
 
 import javax.jms.ConnectionFactory;
 

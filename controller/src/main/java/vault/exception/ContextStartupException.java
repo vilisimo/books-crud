@@ -1,4 +1,4 @@
-package vault.jms.exceptions;
+package vault.exception;
 
 public class ContextStartupException extends RuntimeException {
 
