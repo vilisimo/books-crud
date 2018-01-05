@@ -29,7 +29,6 @@ public class Book {
 
     private Book() {}
 
-    // TODO: add validations in case POJO is created manually
     public Book(String author, String title, String description, String amazon, String goodreads) {
         this.id = UUID.randomUUID().toString();
         this.amazon = amazon;

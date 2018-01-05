@@ -49,7 +49,7 @@ public class PersistenceClient {
         String bookString = (String) template.requestBody(endpoints.getOne(), bookId);
 
         if (bookString.equals("null")) {
-            // TODO: camel fails on null, it cannot be through it
+            // TODO: camel fails on null; null cannot be sent through it
             return null;
         }
 
