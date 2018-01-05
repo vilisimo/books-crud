@@ -9,6 +9,7 @@ import vault.exception.MappingException;
 import java.io.IOException;
 
 import static java.util.Objects.requireNonNull;
+import static vault.validation.Requests.requireNonNullBody;
 
 public class ObjectConverter implements Converter {
 
@@ -20,7 +21,7 @@ public class ObjectConverter implements Converter {
 
     @Override
     public String asString(Object object) {
-        requireNonNull(object, "Null cannot be converted to a string");
+        requireNonNullBody(object);
 
         try {
             return mapper.writeValueAsString(object);
